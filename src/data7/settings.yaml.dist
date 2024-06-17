@@ -1,0 +1,43 @@
+#
+# Data7 application general settings
+#
+
+# ---- GLOBAL ----------------------------------
+global:
+  # The base url path for dataset urls
+  datasets_root_url: "/d"
+
+  # Parquet
+  parquet_batch_size: 100
+
+# ---- DEFAULT ---------------------------------
+default:
+  # Set debug to true for development, never for production!
+  debug: false
+
+  # Server
+  # host:
+  # port:
+
+# ---- PRODUCTION ------------------------------
+production:
+  # Set debug to true for development, never for production!
+  debug: false
+
+  # Server
+  # host: data7.example.com
+  # port: 8080
+
+#
+# /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
+#
+# ---- DEVELOPMENT -----------------------------
+development:
+  debug: true
+
+  # Server
+  host: "127.0.0.1"
+  port: 8000
+
+# ---- TESTING ---------------------------------
+testing:
