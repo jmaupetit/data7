@@ -1,0 +1,33 @@
+#
+# Data7 datasets definition.
+#
+# Feel free to adapt this file given your needs and environment.
+#
+
+# ---- DEFAULT ---------------------------------
+default:
+  datasets: []
+
+# ---- PRODUCTION ------------------------------
+production:
+  datasets: []
+
+#
+# /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
+#
+# ---- DEVELOPMENT -----------------------------
+development:
+  datasets:
+    - basename: invoices
+      query: "SELECT * FROM Invoice"
+    - basename: tracks
+      query: >
+        SELECT Artist.Name as artist, Album.Title as title, Track.Name as track
+        FROM Artist
+        INNER JOIN Album ON Artist.ArtistId = Album.ArtistId
+        INNER JOIN Track ON Album.AlbumId = Track.AlbumId
+        ORDER BY Artist.Name, Album.Title
+
+# ---- TESTING ---------------------------------
+testing:
+  datasets: []

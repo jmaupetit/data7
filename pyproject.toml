@@ -1,0 +1,78 @@
+[tool.poetry]
+name = "data7"
+version = "0.1.0"
+description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
+authors = ["Julien Maupetit <julien@maupetit.net>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+databases = {extras = ["aiosqlite"], version = "^0.9.0"}
+dynaconf = "^3.2.5"
+pyarrow = "^16.1.0"
+python = "^3.10"
+starlette = "^0.37.2"
+uvicorn = {extras = ["standard"], version = "^0.30.1"}
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+mypy = "^1.10.0"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+pytest-httpx = "^0.30.0"
+ruff = "^0.4.10"
+
+# Third party packages configuration
+[tool.coverage.run]
+omit = []
+
+[tool.pytest.ini_options]
+addopts = "-v --cov-report term-missing --cov=data7"
+python_files = [
+    "test_*.py",
+    "tests.py",
+]
+testpaths = [
+    "tests",
+]
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = []
+
+[tool.ruff.lint]
+select = [
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "D",  # pydocstyle
+    "E",  # pycodestyle error
+    "F",  # Pyflakes
+    "I",  # Isort
+    "ISC",  # flake8-implicit-str-concat
+    "PLC",  # Pylint Convention
+    "PLE",  # Pylint Error
+    "PLR",  # Pylint Refactor
+    "PLW",  # Pylint Warning
+    "RUF100",  # Ruff unused-noqa
+    "S",  # flake8-bandit
+    "T20", # flake8-print
+    "W",  # pycodestyle warning
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101", # use of assert
+]
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[tool.mypy]
+files = "./**/*.py"
+exclude = []
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
