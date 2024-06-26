@@ -47,7 +47,6 @@ venv.bak/
 
 # -- Tools
 .coverage
-logging-config.yaml
 
 # dynaconf files
 .secrets.yaml

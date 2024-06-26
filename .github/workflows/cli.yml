@@ -1,0 +1,44 @@
+name: cli
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  commands:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: Install data7
+        run: pip install .
+      - name: Init data7 project
+        run: |
+          mkdir /tmp/data7
+          cd /tmp/data7
+          data7 init
+      - name: Download test database
+        working-directory: /tmp/data7
+        run: |
+          mkdir db
+          curl -Ls -o db/development.db \
+            https://github.com/lerocha/chinook-database/releases/download/v1.4.5/Chinook_Sqlite.sqlite
+      - name: Check configuration
+        working-directory: /tmp/data7
+        env:
+          ENV_FOR_DYNACONF: development
+        run: data7 check
+      - name: Run the server
+        working-directory: /tmp/data7
+        env:
+          ENV_FOR_DYNACONF: development
+        run: timeout --preserve-status 5 data7 run

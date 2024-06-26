@@ -2,6 +2,7 @@
 
 import pytest
 from data7.config import settings
+from typer.testing import CliRunner
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -18,3 +19,9 @@ def anyio_backend():
     compatibility tests using the asyncio backend.
     """
     return "asyncio"
+
+
+@pytest.fixture
+def runner():
+    """CLI runner."""
+    yield CliRunner()

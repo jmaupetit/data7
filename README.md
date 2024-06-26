@@ -1,13 +1,17 @@
 # Data7 - Dynamic datasets the easy way
 
-> Pronounced data·set (7 like _sept_ in French).
+> Pronounced data·set (**7** like **sept** in French).
 
-## The idea :bulb:
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jmaupetit/data7/quality.yml)
+![PyPI - Version](https://img.shields.io/pypi/v/data7)
+
+
+## The idea 💡
 
 **TL;DR** Data7 is a high performance web server that generates dynamic datasets
 (in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) or
 [Parquet](https://en.wikipedia.org/wiki/Apache_Parquet) formats) from existing
-databases and stream them over HTTP :tada:
+databases and stream them over HTTP 🎉
 
 ### Example usage
 

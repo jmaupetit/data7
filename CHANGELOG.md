@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Implement `data7` CLI
+
 ## [0.1.0] - 2024-06-26
 
 ### Added
