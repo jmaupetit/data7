@@ -8,9 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.0] - 2024-06-26
+
 ### Added
 
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.1.0...main
+[0.1.0]: https://github.com/jmaupetit/data7/compare/27c4af8...v0.1.0
