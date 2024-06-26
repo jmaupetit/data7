@@ -38,8 +38,12 @@ build: ## install project
 	poetry install
 .PHONY: build
 
+check: ## check data7 configuration
+	poetry run data7 check
+.PHONY: check
+
 run: ## run the api server
-	poetry run uvicorn "data7.app:app" --reload --log-level debug --log-config logging-config.yaml
+	poetry run data7 run --log-level debug
 .PHONY: run
 
 # -- API

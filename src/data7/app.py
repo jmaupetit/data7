@@ -52,6 +52,7 @@ class MimeType(StrEnum):
 
 async def populate_datasets() -> List[Dataset]:
     """Validate configured datasets and get sql query expected field names."""
+    logging.debug("Will populate datasets given configuration...")
     datasets = []
 
     for raw_dataset in settings.datasets:
@@ -74,6 +75,7 @@ async def populate_datasets() -> List[Dataset]:
 
         datasets.append(dataset)
 
+    logger.info("Active datasets: %s", ", ".join(d.basename for d in datasets))
     return datasets
 
 
@@ -216,6 +218,8 @@ async def lifespan(app):
 
 
 middleware = [Middleware(GZipMiddleware, minimum_size=1000)]
+
+logger.info("Active extensions: %s", ", ".join(e for e in Extension))
 
 app = Starlette(
     routes=routes,

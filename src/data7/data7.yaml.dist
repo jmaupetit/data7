@@ -21,7 +21,7 @@ development:
     - basename: invoices
       query: "SELECT * FROM Invoice"
     - basename: tracks
-      query: >
+      query: >-
         SELECT Artist.Name as artist, Album.Title as title, Track.Name as track
         FROM Artist
         INNER JOIN Album ON Artist.ArtistId = Album.ArtistId
@@ -30,4 +30,6 @@ development:
 
 # ---- TESTING ---------------------------------
 testing:
-  datasets: []
+  datasets:
+    - basename: dummy
+      query: "SELECT 1"
