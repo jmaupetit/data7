@@ -47,6 +47,7 @@ venv.bak/
 
 # -- Tools
 .coverage
+site
 
 # dynaconf files
 .secrets.yaml
