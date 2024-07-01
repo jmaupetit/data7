@@ -1,4 +1,4 @@
-name: cli
+name: CLI
 
 on:
   push:

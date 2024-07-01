@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Add project documentation
+
 ## [0.2.0] - 2024-07-01
 
 ### Added

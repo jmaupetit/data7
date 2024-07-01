@@ -1,10 +1,9 @@
-# Data7 - Dynamic datasets the easy way
+# Data7 ⚡ Open your data in minutes
 
 > Pronounced data·set (**7** like **sept** in French).
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jmaupetit/data7/quality.yml)
 ![PyPI - Version](https://img.shields.io/pypi/v/data7)
-
 
 ## The idea 💡
 
@@ -13,83 +12,55 @@
 [Parquet](https://en.wikipedia.org/wiki/Apache_Parquet) formats) from existing
 databases and stream them over HTTP 🎉
 
-### Example usage
+## A quick example
 
-Let say you have a `restaurant` table in your `wonderful-places` PostgreSQL
-database, and you want to make this table an always-up-to-date dataset that can
-be easily used by the rest of the world. All you have to do is edit Data7
-configuration as follow:
+Let say you have a `restaurant` table in your PostgreSQL database, and you want
+to make this table an always-up-to-date dataset that can be easily used by the
+rest of the world.
+
+All you have to do is to initialize your project:
+
+```sh
+data7 init
+```
+
+✍️ Edit configuration files:
 
 ```yaml
-#
-# Data7 configuration file
-#
-# config.yaml
-#
-datasets:
-  - basename: restaurants
-    query: "SELECT * FROM restaurant"
+# settings.yaml
+production:
+  host: "https://data7.wonderful-places.org"
+  port: 80
+
+# .secrets.yaml
+production:
+  DATABASE_URL: "postgresql+asyncpg://user:pass@server:port/wonderful-places"
+
+# data7.yaml
+production:
+  datasets:
+    - basename: restaurants
+      query: "SELECT * FROM restaurant"
 ```
 
-Fire up the `data7` server:
+🏎️ Fire up the `data7` server:
 
-```
-data7 start
+```sh
+data7 run
 ```
 
-And :boom: your dataset is available at:
+💥 Your dataset is available at:
 
 - [https://data7.wonderful-places.org/d/restaurants.csv](https://data7.wonderful-places.org/d/restaurants.csv)
+  (CSV)
 - [https://data7.wonderful-places.org/d/restaurants.parquet](https://data7.wonderful-places.org/d/restaurants.parquet)
+  (Parquet)
 
-## Getting started
+## Documentation
 
-To quickly start contributing to this project, we got you covered! Once you've
-cloned the project, use GNU Make to ease your life (`make` and `curl` are
-required).
-
-```sh
-# Clone the project somewhere on your system
-git clone git@github.com:jmaupetit/data7.git
-
-# Enter the project's root directory
-cd data7
-
-# Prepare your working environment
-make bootstrap
-```
-
-You can now start the development server:
-
-```sh
-make run
-```
-
-Test development endpoints:
-
-```sh
-# CSV format (displayed in the terminal)
-curl http://localhost:8000/d/invoices.csv
-
-# Parquet format (downloaded locally)
-curl -O http://localhost:8000/d/invoices.parquet
-
-# Check that the file exists
-ls invoices.parquet
-```
-
-You can run quality checks using dedicated GNU Make rules:
-
-```sh
-# Run the tests suite
-make test
-
-# Linters!
-make lint
-```
-
-Happy hacking 😻
+The complete documentation of the project is avaiable at:
+[https://jmaupetit.github.io/data7/](https://jmaupetit.github.io/data7/)
 
 ## License
 
-This work is released under the MIT License (see [LICENSE](./LICENSE)).
+This work is released under the MIT License.

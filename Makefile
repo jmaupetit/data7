@@ -42,6 +42,15 @@ check: ## check data7 configuration
 	poetry run data7 check
 .PHONY: check
 
+
+docs: ## build Data7 documentation
+	poetry run mkdocs build
+.PHONY: docs
+
+docs-serve: ## run Data7 documentation server
+	poetry run mkdocs serve -a localhost:8888
+.PHONY: docs-serve
+
 run: ## run the api server
 	poetry run data7 run --log-level debug
 .PHONY: run

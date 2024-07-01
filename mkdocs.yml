@@ -1,0 +1,56 @@
+site_name: Data7
+site_url: https://jmaupetit.github.io/data7/
+repo_url: https://github.com/jmaupetit/data7
+repo_name: jmaupetit/data7
+
+nav:
+  - Introduction: "index.md"
+  - Tutorial: "tutorial.md"
+  - Configuration: "configuration.md"
+  - Contribute:
+      - Code of conduct: "code_of_conduct.md"
+      - Guidelines: "guidelines.md"
+      - Playing with the code: "contribute.md"
+
+theme:
+  name: material
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: "pink"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: "pink"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: "pink"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+  features:
+    - content.code.copy
+    - content.tabs.link
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables

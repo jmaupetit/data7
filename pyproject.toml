@@ -5,6 +5,15 @@ description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
 authors = ["Julien Maupetit <julien@maupetit.net>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://jmaupetit.github.io/data7/"
+repository = "https://github.com/jmaupetit/data7"
+documentation = "https://jmaupetit.github.io/data7/"
+keywords = ["database", "dataset", "SQL", "Parquet", "CSV", "HTTP"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Topic :: Database",
+  "Topic :: Internet :: WWW/HTTP :: WSGI",
+]
 
 [tool.poetry.dependencies]
 databases = {extras = ["aiosqlite"], version = "^0.9.0"}
@@ -17,6 +26,7 @@ uvicorn = {extras = ["standard"], version = "^0.30.1"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
+mkdocs-material = "^9.5.27"
 mypy = "^1.10.0"
 pytest = "^8.2.2"
 pytest-cov = "^5.0.0"
