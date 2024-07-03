@@ -47,6 +47,10 @@ docs: ## build Data7 documentation
 	poetry run mkdocs build
 .PHONY: docs
 
+docs-publish: ## publish Data7 documentation
+	poetry run mkdocs gh-deploy --force
+.PHONY: docs-publish
+
 docs-serve: ## run Data7 documentation server
 	poetry run mkdocs serve -a localhost:8888
 .PHONY: docs-serve
