@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "data7"
-version = "0.2.0"
+version = "0.3.0"
 description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
 authors = ["Julien Maupetit <julien@maupetit.net>"]
 license = "MIT"
