@@ -10,7 +10,7 @@
 **TL;DR** Data7 is a high performance web server that generates dynamic datasets
 (in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) or
 [Parquet](https://en.wikipedia.org/wiki/Apache_Parquet) formats) from existing
-databases and stream them over HTTP 🎉
+databases and streams them over HTTP 🎉
 
 ## A quick example
 
