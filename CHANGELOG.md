@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.4.1] - 2024-07-04
+
 ### Fixed
 
 - [CLI] fix ignored `run` `--host` and `--port` options
@@ -41,7 +43,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.4.0...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.4.1...main
+[0.4.1]: https://github.com/jmaupetit/data7/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/jmaupetit/data7/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jmaupetit/data7/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/jmaupetit/data7/compare/v0.1.0...v0.2.0
