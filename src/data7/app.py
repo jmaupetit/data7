@@ -36,7 +36,9 @@ class Dataset:
     basename: str
     query: str
     # Following fields are set dynamically
-    fields: Optional[List[str]] = None
+    # fields: Optional[List[str]] = None
+    #
+    schema: Optional[list[tuple[str,str]]] = None
 
 
 class Extension(StrEnum):
@@ -157,6 +159,8 @@ async def sql2parquet(dataset: Dataset) -> AsyncGenerator[bytes, Any]:
 
     sample = records2batch(records)
 
+    # TODO
+    # Maybe we should get types from SQL and use a corresponding table SQL <> PyArrow instead.
     sink = pa.BufferOutputStream()
     writer = pq.ParquetWriter(sink, schema=sample.schema, compression="GZIP")
 
