@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix documentation typos
+
 ## [0.3.0] - 2024-07-03
 
 ### Added
