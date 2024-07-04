@@ -129,7 +129,7 @@ is available from the
 
 ## Initialize the project
 
-Data7 requires few configuration files to created before firing up the web
+Data7 requires few configuration files to be created before firing up the web
 server. Those can be created using the `data7 init` command.
 
 === "Pip"
