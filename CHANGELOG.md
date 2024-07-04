@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- [CLI] `run` command `reload` option should not be enabled by default
+
 ## [0.4.1] - 2024-07-04
 
 ### Fixed
