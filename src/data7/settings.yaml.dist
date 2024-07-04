@@ -19,8 +19,14 @@ default:
   # host:
   # port:
 
+  # Sentry
+  sentry_dsn: null
+  sentry_traces_sample_rate: 1.0
+
 # ---- PRODUCTION ------------------------------
 production:
+  execution_environment: production
+
   # Set debug to true for development, never for production!
   debug: false
 
@@ -28,11 +34,16 @@ production:
   # host: data7.example.com
   # port: 8080
 
+  # Sentry
+  # sentry_dsn:
+  # sentry_traces_sample_rate: 1.0
+
 #
 # /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
 #
 # ---- DEVELOPMENT -----------------------------
 development:
+  execution_environment: development
   debug: true
 
   # Server
@@ -41,3 +52,4 @@ development:
 
 # ---- TESTING ---------------------------------
 testing:
+  execution_environment: testing

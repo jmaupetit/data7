@@ -147,6 +147,30 @@ Default: `None` (required)
 
 ---
 
+#### `EXECUTION_ENVIRONMENT`
+
+Used by [Sentry](https://sentry.io/) to track the environment of raised issue.
+
+Default: `None`
+
+---
+
+#### `SENTRY_DSN`
+
+The DSN of your Sentry project, _e.g._ `https://account@sentry.io/project_id`. When not set, Sentry integration is not active.
+
+Default: `None`
+
+---
+
+#### `SENTRY_TRACES_SAMPLE_RATE`
+
+The sample rate of traces sent to sentry: 1.0 means 100% while 0.1 means 10%.
+
+Default: `1.0`
+
+---
+
 ### `.secrets.yaml`
 
 ---

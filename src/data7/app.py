@@ -2,6 +2,7 @@
 
 import contextlib
 import csv
+import importlib.metadata
 import logging
 from dataclasses import dataclass
 from enum import StrEnum
@@ -11,7 +12,9 @@ from typing import Any, AsyncGenerator, Callable, List, Optional, Tuple
 
 import databases
 import pyarrow as pa
+import sentry_sdk
 from pyarrow import parquet as pq
+from sentry_sdk.integrations.starlette import StarletteIntegration
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
@@ -213,6 +216,19 @@ async def lifespan(app):
     """Application lifespan."""
     await database.connect()
     app.state.datasets = await populate_datasets()
+
+    if settings.SENTRY_DSN is not None:
+        sentry_sdk.init(
+            dsn=str(settings.SENTRY_DSN),
+            enable_tracing=True,
+            traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+            release=importlib.metadata.version("data7"),
+            environment=settings.EXECUTION_ENVIRONMENT,
+            integrations=[
+                StarletteIntegration(),
+            ],
+        )
+
     yield
     await database.disconnect()
 
