@@ -23,6 +23,7 @@ python = "^3.11"
 starlette = "^0.37.2"
 typer = "^0.12.3"
 uvicorn = {extras = ["standard"], version = "^0.30.1"}
+sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"

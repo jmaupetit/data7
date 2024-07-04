@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Integrate Sentry
+
 ### Fixed
 
 - Fix documentation typos
