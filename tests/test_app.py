@@ -92,10 +92,8 @@ async def test_populate_datasets_with_invalid_query(monkeypatch):
         ],
     )
 
-    with pytest.raises(
-        ValueError, match="Dataset 'employees' query returned no result"
-    ):
-        await populate_datasets()
+    datasets = await populate_datasets()
+    assert len(datasets) == 0
 
     employees_query = (
         "SELECT "

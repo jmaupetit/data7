@@ -72,7 +72,11 @@ async def populate_datasets() -> List[Dataset]:
             ) from exc
         # Query returns no result, we cannot set fields.
         if row is None:
-            raise ValueError(f"Dataset '{dataset.basename}' query returned no result")
+            logger.warning(
+                "'%s' query returned no result, dataset will be ignored",
+                dataset.basename,
+            )
+            continue
         # Set fields from database query result
         dataset.fields = list(row._mapping.keys())
 
