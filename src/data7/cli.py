@@ -194,7 +194,7 @@ def check():
 def run(  # noqa: PLR0913
     host: Optional[str] = None,
     port: Optional[int] = None,
-    reload: bool = True,
+    reload: bool = False,
     workers: Optional[int] = None,
     root_path: str = "",
     proxy_headers: bool = False,

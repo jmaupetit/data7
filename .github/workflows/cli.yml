@@ -41,4 +41,4 @@ jobs:
         working-directory: /tmp/data7
         env:
           ENV_FOR_DYNACONF: development
-        run: timeout --preserve-status 5 data7 run
+        run: timeout --preserve-status 5 data7 run --reload
