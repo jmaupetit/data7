@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Ignore datasets with a query returning no results instead of raising an error
+
 ### Fixed
 
 - [CLI] `run` command `reload` option should not be enabled by default
