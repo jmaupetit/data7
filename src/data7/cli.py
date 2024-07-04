@@ -203,16 +203,8 @@ def run(  # noqa: PLR0913
     """Run data7 web server."""
     default_host = "localhost"
     default_port = 8000
-    host = (
-        data7.config.settings.get("HOST", default_host)
-        if host is None
-        else default_host
-    )
-    port = (
-        data7.config.settings.get("PORT", default_port)
-        if port is None
-        else default_port
-    )
+    host = data7.config.settings.get("HOST", default_host) if host is None else host
+    port = data7.config.settings.get("PORT", default_port) if port is None else port
     # Configure logging
     log_config = copy.copy(uvicorn.config.LOGGING_CONFIG)
     log_config["loggers"]["data7.app"] = {

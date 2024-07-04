@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- [CLI] fix ignored `run` `--host` and `--port` options
+
 ## [0.4.0] - 2024-07-04
 
 ### Added
