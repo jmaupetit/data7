@@ -6,7 +6,7 @@ import importlib.metadata
 import logging
 from dataclasses import dataclass
 from enum import StrEnum
-from io import StringIO
+from io import StringIO, BytesIO
 from pathlib import PurePath
 from typing import Any, AsyncGenerator, Callable, List, Optional, Tuple
 
@@ -36,9 +36,9 @@ class Dataset:
     basename: str
     query: str
     # Following fields are set dynamically
-    # fields: Optional[List[str]] = None
-    #
-    schema: Optional[list[tuple[str,str]]] = None
+    fields: Optional[List[str]] = None
+    # Schema can be defined by the user or guessed from SQL Query (experimental)
+    # schema: Optional[list[tuple[str, str]]] = None
 
 
 class Extension(StrEnum):
@@ -160,8 +160,9 @@ async def sql2parquet(dataset: Dataset) -> AsyncGenerator[bytes, Any]:
     sample = records2batch(records)
 
     # TODO
-    # Maybe we should get types from SQL and use a corresponding table SQL <> PyArrow instead.
-    sink = pa.BufferOutputStream()
+    # Maybe we should get types from SQL and use a corresponding table SQL <> PyArrow
+    # instead.
+    sink = BytesIO()
     writer = pq.ParquetWriter(sink, schema=sample.schema, compression="GZIP")
 
     # Rows
@@ -170,17 +171,26 @@ async def sql2parquet(dataset: Dataset) -> AsyncGenerator[bytes, Any]:
         batch_records.append(record)
         if len(batch_records) < settings.PARQUET_BATCH_SIZE:
             continue
-        # Prepare batch
+
+        # Write batch
         batch = records2batch(batch_records)
         writer.write_batch(batch)
+
+        # Stream batch
+        sink.seek(0)
+        yield sink.read(batch.nbytes)
+
+        # Reset batch
+        sink.seek(0)
         batch_records = []
 
     if len(batch_records):
         batch = records2batch(batch_records)
         writer.write_batch(batch)
+        sink.seek(0)
+        yield sink.read(batch.nbytes)
     writer.close()
-
-    yield bytes(sink.getvalue())
+    sink.close()
 
 
 async def stream_dataset(request: Request) -> StreamingResponse:
