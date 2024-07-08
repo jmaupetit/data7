@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.5.0] - 2024-07-08
+
 ### Changed
 
 - Ignore datasets with a query returning no results instead of raising an error
@@ -51,7 +53,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.4.1...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.5.0...main
+[0.4.1]: https://github.com/jmaupetit/data7/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/jmaupetit/data7/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/jmaupetit/data7/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/jmaupetit/data7/compare/v0.2.0...v0.3.0
