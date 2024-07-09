@@ -7,15 +7,16 @@ from pathlib import Path
 from sqlite3 import OperationalError as SqliteOperationalError
 from typing import Optional
 
-import anyio
-import databases
+import sqlalchemy
 import typer
 import uvicorn
 import yaml
-from anyio import run as async_run
 from rich.console import Console
 from rich.syntax import Syntax
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.sql import text
 
 import data7
 
@@ -70,7 +71,7 @@ def init():
 #
 # Example settings for production environment
 production:
-  DATABASE_URL: "postgresql+asyncpg://user:pass@server:port/acme"
+  DATABASE_URL: "postgresql://user:pass@server:port/acme"
     """,
             "yaml",
         )
@@ -132,40 +133,32 @@ def check_settings_files_format():
         console.print(content)
 
 
-async def check_database_connection():
+def check_database_connection(engine: Engine):
     """Check database URL connection."""
     console.rule("[yellow]check[/yellow] // [bold cyan]database connection")
 
-    database_url = data7.config.settings.DATABASE_URL
     with console.status("Connecting to database...", spinner="dots"):
-        database = databases.Database(database_url)
-        await database.connect()
-        await database.execute(query="SELECT 1")
-    await database.disconnect()
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
     console.print("✅ database connection looks ok from here")
     console.print("⚠️[yellow i] Note that there may be false positive for sqlite")
 
 
-async def check_datasets_queries():
+def check_datasets_queries(engine: Engine):
     """Check datasets defined queries."""
     console.rule("[yellow]check[/yellow] // [bold cyan]datasets queries")
 
-    settings = data7.config.settings
-    database = databases.Database(settings.DATABASE_URL)
-    await database.connect()
-
-    for dataset in settings.datasets:
-        console.print(f"👉 [b cyan]{dataset.basename}")
-        console.print(f"   [i]{dataset.query}")
-        try:
-            await database.fetch_one(dataset.query)
-        except (OperationalError, SqliteOperationalError) as err:
-            console.print("❌ Invalid database query")
-            console.print_exception(max_frames=1, suppress=[anyio, databases])
-            raise typer.Exit(ExitCodes.INVALID_CONFIGURATION) from err
-        console.print("   ✅ valid\n")
-
-    await database.disconnect()
+    with engine.connect() as conn:
+        for dataset in data7.config.settings.datasets:
+            console.print(f"👉 [b cyan]{dataset.basename}")
+            console.print(f"   [i]{dataset.query}")
+            try:
+                conn.execute(text(dataset.query)).scalar()
+            except (OperationalError, SqliteOperationalError) as err:
+                console.print("❌ Invalid database query")
+                console.print_exception(max_frames=1, suppress=[sqlalchemy])
+                raise typer.Exit(ExitCodes.INVALID_CONFIGURATION) from err
+            console.print("   ✅ valid\n")
 
 
 @cli.command()
@@ -182,10 +175,12 @@ def check():
 
     4. datasets SQL queries SHOULD be valid SQL
     """
+    engine = create_engine(data7.config.settings.DATABASE_URL)
+
     check_settings_files_exist()
     check_settings_files_format()
-    async_run(check_database_connection)
-    async_run(check_datasets_queries)
+    check_database_connection(engine)
+    check_datasets_queries(engine)
 
     console.print("\n💫 All checks are successful. w00t 🎉")
 

@@ -168,8 +168,14 @@ Three configuration files should have been created:
       # The base url path for dataset urls
       datasets_root_url: "/d"
 
-      # Parquet
-      parquet_batch_size: 100
+      # Pandas chunks
+      chunk_size: 5000
+      schema_sniffer_size: 1000
+      default_dtype_backend: pyarrow
+
+      # Pyinstrument
+      profiler_interval: 0.001
+      profiler_async_mode: enabled
 
     # ---- DEFAULT ---------------------------------
     default:
@@ -180,8 +186,17 @@ Three configuration files should have been created:
       # host:
       # port:
 
+      # Sentry
+      sentry_dsn: null
+      sentry_traces_sample_rate: 1.0
+
+      # Pyinstrument
+      profiling: false
+
     # ---- PRODUCTION ------------------------------
     production:
+      execution_environment: production
+
       # Set debug to true for development, never for production!
       debug: false
 
@@ -189,20 +204,31 @@ Three configuration files should have been created:
       # host: data7.example.com
       # port: 8080
 
+      # Sentry
+      # sentry_dsn:
+      # sentry_traces_sample_rate: 1.0
+
+      # Pyinstrument
+      profiling: false
+
     #
     # /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
     #
     # ---- DEVELOPMENT -----------------------------
     development:
+      execution_environment: development
       debug: true
 
       # Server
       host: "127.0.0.1"
       port: 8000
 
+      # Pyinstrument
+      profiling: true
+
     # ---- TESTING ---------------------------------
     testing:
-
+      execution_environment: testing
     ```
 
 === ".secrets.yaml"
@@ -216,22 +242,22 @@ Three configuration files should have been created:
 
     # ---- DEFAULT ---------------------------------
     default:
-      # DATABASE_URL: "sqlite+aiosqlite:///example.db"
+      # DATABASE_URL: "sqlite:///example.db"
 
     # ---- PRODUCTION ------------------------------
     production:
-      # DATABASE_URL: "sqlite+aiosqlite:///example.db"
+      # DATABASE_URL: "sqlite:///example.db"
 
     #
     # /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
     #
     # ---- DEVELOPMENT -----------------------------
     development:
-      DATABASE_URL: "sqlite+aiosqlite:///db/development.db"
+      DATABASE_URL: "sqlite:///db/development.db"
 
     # ---- TESTING ---------------------------------
     testing:
-      DATABASE_URL: "sqlite+aiosqlite:///db/tests.db"
+      DATABASE_URL: "sqlite:///db/tests.db"
     ```
 
 === "data7.yaml"
@@ -295,7 +321,7 @@ file:
 ```yaml
 # .secrets.yaml
 development:
-  DATABASE_URL: "sqlite+aiosqlite:///chinook.db"
+  DATABASE_URL: "sqlite:///chinook.db"
 ```
 
 And check what datasets are defined in the `data7.yaml` file:

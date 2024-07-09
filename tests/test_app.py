@@ -21,8 +21,7 @@ from starlette.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_501_NOT_IMPLE
 from starlette.testclient import TestClient
 
 
-@pytest.mark.anyio
-async def test_populate_datasets(monkeypatch):
+def test_populate_datasets(monkeypatch):
     """Test the populate_datasets function."""
     employees_query = (
         "SELECT "
@@ -54,23 +53,20 @@ async def test_populate_datasets(monkeypatch):
             },
         ],
     )
-    datasets = await populate_datasets()
+    datasets = populate_datasets()
     assert datasets == [
         Dataset(
             basename="employees",
             query=employees_query,
-            fields=["last_name", "first_name", "city"],
         ),
         Dataset(
             basename="customers",
             query=customers_query,
-            fields=["last_name", "first_name", "company"],
         ),
     ]
 
 
-@pytest.mark.anyio
-async def test_populate_datasets_with_invalid_query(monkeypatch):
+def test_populate_datasets_with_invalid_query(monkeypatch):
     """Test the populate_datasets function when user defined an invalid query."""
     employees_query = (
         "SELECT "
@@ -92,7 +88,7 @@ async def test_populate_datasets_with_invalid_query(monkeypatch):
         ],
     )
 
-    datasets = await populate_datasets()
+    datasets = populate_datasets()
     assert len(datasets) == 0
 
     employees_query = (
@@ -118,7 +114,7 @@ async def test_populate_datasets_with_invalid_query(monkeypatch):
     with pytest.raises(
         ValueError, match="Dataset 'employees' query failed, maybe SQL is invalid"
     ):
-        await populate_datasets()
+        populate_datasets()
 
 
 def test_get_dataset_from_url():
@@ -133,7 +129,6 @@ def test_get_dataset_from_url():
                 "city as city "
                 "FROM Employee"
             ),
-            fields=["last_name", "first_name", "city"],
         ),
         Dataset(
             basename="customers",
@@ -144,7 +139,6 @@ def test_get_dataset_from_url():
                 "Company as company "
                 "FROM Customer"
             ),
-            fields=["last_name", "first_name", "company"],
         ),
     ]
 
@@ -179,7 +173,6 @@ def test_get_routes_from_datasets():
                 "city as city "
                 "FROM Employee"
             ),
-            fields=["last_name", "first_name", "city"],
         ),
         Dataset(
             basename="customers",
@@ -190,7 +183,6 @@ def test_get_routes_from_datasets():
                 "Company as company "
                 "FROM Customer"
             ),
-            fields=["last_name", "first_name", "company"],
         ),
     ]
     routes = get_routes_from_datasets(datasets)
@@ -200,8 +192,7 @@ def test_get_routes_from_datasets():
     assert routes[3].path == "/d/customers.parquet"
 
 
-@pytest.mark.anyio
-async def test_sql2csv():
+def test_sql2csv():
     """Test sql2csv function."""
     dataset = Dataset(
         basename="customers",
@@ -213,27 +204,17 @@ async def test_sql2csv():
             "FROM Customer "
             "ORDER BY last_name, first_name"
         ),
-        fields=["last_name", "first_name", "company"],
     )
 
     n_customers = 59
-    output = [row async for row in sql2csv(dataset)]
+    output = list(filter(lambda x: len(x), "".join(sql2csv(dataset)).split("\n")))
     assert len(output) == n_customers + 1
-    assert output[0] == "last_name,first_name,company\r\n"
-    assert output[1] == "Almeida,Roberto,Riotur\r\n"
-    assert output[-1] == "Zimmermann,Fynn,\r\n"
-
-    # Dataset as no fields defined
-    dataset.fields = None
-    with pytest.raises(
-        ValueError, match="Requested dataset 'customers' has no defined fields"
-    ):
-        async for _ in sql2csv(dataset):
-            pass
+    assert output[0] == "last_name,first_name,company"
+    assert output[1] == "Almeida,Roberto,Riotur"
+    assert output[-1] == "Zimmermann,Fynn,"
 
 
-@pytest.mark.anyio
-async def test_sql2parquet(monkeypatch):
+def test_sql2parquet():
     """Test sql2parquet function."""
     dataset = Dataset(
         basename="customers",
@@ -245,16 +226,12 @@ async def test_sql2parquet(monkeypatch):
             "FROM Customer "
             "ORDER BY last_name, first_name"
         ),
-        fields=["last_name", "first_name", "company"],
     )
 
-    monkeypatch.setattr(settings, "PARQUET_BATCH_SIZE", 10)
-
     n_customers = 59
-    with pa.BufferReader(b"".join([b async for b in sql2parquet(dataset)])) as stream:
+    with pa.BufferReader(b"".join(sql2parquet(dataset, chunksize=10))) as stream:
         customers = parquet.ParquetFile(stream)
         assert customers.metadata.num_rows == n_customers
-        assert customers.metadata.num_columns == len(dataset.fields)
 
         table = customers.read()
         assert str(table["last_name"][0]) == "Almeida"
@@ -277,7 +254,6 @@ def test_stream_dataset_route():
                 "city as city "
                 "FROM Employee"
             ),
-            fields=["last_name", "first_name", "city"],
         ),
         Dataset(
             basename="customers",
@@ -288,7 +264,6 @@ def test_stream_dataset_route():
                 "Company as company "
                 "FROM Customer"
             ),
-            fields=["last_name", "first_name", "company"],
         ),
     ]
     for route in get_routes_from_datasets(app.state.datasets):
@@ -323,3 +298,37 @@ def test_stream_dataset_route():
     response = client.get("/d/customers.xls")
     assert response.status_code == HTTP_501_NOT_IMPLEMENTED
     assert response.text == "Data7 extension 'xls' is not supported"
+
+
+def test_profiling_middleware():
+    """Test the profiling middleware."""
+    app.state.datasets = [
+        Dataset(
+            basename="employees",
+            query=(
+                "SELECT "
+                "LastName as last_name, "
+                "FirstName as first_name, "
+                "city as city "
+                "FROM Employee"
+            ),
+        ),
+    ]
+    for route in get_routes_from_datasets(app.state.datasets):
+        app.add_route(route.path, route.endpoint)
+
+    client = TestClient(app)
+
+    response = client.get("/d/employees.csv?profile=1")
+    assert response.status_code == HTTP_200_OK
+    assert "pyinstrumentHTMLRenderer" in response.text
+
+    # Even with a random value, profiling is activated
+    response = client.get("/d/employees.csv?profile=0")
+    assert response.status_code == HTTP_200_OK
+    assert "pyinstrumentHTMLRenderer" in response.text
+
+    # `profile` query parameter should be associated with a value
+    response = client.get("/d/employees.csv?profile")
+    assert response.status_code == HTTP_200_OK
+    assert response.text.startswith("last_name,first_name,city")
