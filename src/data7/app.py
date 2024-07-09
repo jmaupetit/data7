@@ -14,13 +14,15 @@ import databases
 import pyarrow as pa
 import sentry_sdk
 from pyarrow import parquet as pq
+from pyinstrument import Profiler
 from sentry_sdk.integrations.starlette import StarletteIntegration
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from starlette.requests import Request
-from starlette.responses import StreamingResponse
+from starlette.responses import HTMLResponse, StreamingResponse
 from starlette.routing import Route
 from starlette.status import HTTP_501_NOT_IMPLEMENTED
 
@@ -214,6 +216,34 @@ routes = get_routes_from_datasets(settings.datasets)
 logger.debug("Registered routes:\n%s", "\n".join([route.path for route in routes]))
 
 
+# Middlewares
+class ProfilingMiddleware(BaseHTTPMiddleware):
+    """A pyinstrument request profiler middleware.
+
+    The profiling middleware is active if the `profiling` setting is set to True.
+    To activate the profiler on an HTTP request, you should also set the `profile`
+    GET parameter to `1`.
+    """
+
+    async def dispatch(self, request, call_next):
+        """Profile HTTP request."""
+        if not request.query_params.get("profile", False):
+            return await call_next(request)
+
+        profiler = Profiler(
+            interval=settings.profiler_interval, async_mode=settings.profiler_async_mode
+        )
+        profiler.start()
+        response = await call_next(request)
+
+        # As we use a StreamingResponse, we need to consume the generator
+        async for _ in response.body_iterator:
+            pass
+
+        profiler.stop()
+        return HTMLResponse(profiler.output_html())
+
+
 # App
 @contextlib.asynccontextmanager
 async def lifespan(app):
@@ -238,6 +268,8 @@ async def lifespan(app):
 
 
 middleware = [Middleware(GZipMiddleware, minimum_size=1000)]
+if settings.profiling:
+    middleware += [Middleware(ProfilingMiddleware)]
 
 logger.info("Active extensions: %s", ", ".join(e for e in Extension))
 
