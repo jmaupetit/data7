@@ -1,21 +1,23 @@
 """Data7 application module."""
 
 import contextlib
-import csv
 import importlib.metadata
 import logging
 from dataclasses import dataclass
 from enum import StrEnum
-from io import StringIO
+from io import BytesIO
 from pathlib import PurePath
-from typing import Any, AsyncGenerator, Callable, List, Optional, Tuple
+from typing import Callable, Generator, List, Optional, Tuple
 
-import databases
+import pandas as pd
 import pyarrow as pa
 import sentry_sdk
 from pyarrow import parquet as pq
 from pyinstrument import Profiler
 from sentry_sdk.integrations.starlette import StarletteIntegration
+from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
+from sqlalchemy.sql import text
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
@@ -37,8 +39,8 @@ class Dataset:
 
     basename: str
     query: str
-    # Following fields are set dynamically
-    fields: Optional[List[str]] = None
+    # Indexes can be defined for a dataset query
+    indexes: Optional[List[str]] = None
 
 
 class Extension(StrEnum):
@@ -55,34 +57,32 @@ class MimeType(StrEnum):
     PARQUET = "application/vnd.apache.parquet"
 
 
-async def populate_datasets() -> List[Dataset]:
+def populate_datasets() -> List[Dataset]:
     """Validate configured datasets and get sql query expected field names."""
     logging.debug("Will populate datasets given configuration...")
     datasets = []
 
-    for raw_dataset in settings.datasets:
-        dataset = Dataset(**raw_dataset)
+    with engine.connect() as conn:
+        for raw_dataset in settings.datasets:
+            dataset = Dataset(**raw_dataset)
 
-        # Validate database query and get expected field names
-        try:
-            row = await database.fetch_one(dataset.query)
-        # Exception is a bit vague, but there is no high-level exception in databases,
-        # i.e. backend-independent exception.
-        except Exception as exc:
-            raise ValueError(
-                f"Dataset '{dataset.basename}' query failed, maybe SQL is invalid"
-            ) from exc
-        # Query returns no result, we cannot set fields.
-        if row is None:
-            logger.warning(
-                "'%s' query returned no result, dataset will be ignored",
-                dataset.basename,
-            )
-            continue
-        # Set fields from database query result
-        dataset.fields = list(row._mapping.keys())
+            # Validate database query and get expected field names
+            try:
+                result = conn.execute(text(dataset.query))
+            except OperationalError as exc:
+                raise ValueError(
+                    f"Dataset '{dataset.basename}' query failed, maybe SQL is invalid"
+                ) from exc
 
-        datasets.append(dataset)
+            # Query returns no result, we cannot set fields.
+            if result.scalar() is None:
+                logger.warning(
+                    "'%s' query returned no result, dataset will be ignored",
+                    dataset.basename,
+                )
+                continue
+
+            datasets.append(dataset)
 
     logger.info("Active datasets: %s", ", ".join(d.basename for d in datasets))
     return datasets
@@ -118,67 +118,59 @@ def get_routes_from_datasets(datasets):
     ]
 
 
-async def sql2csv(dataset: Dataset) -> AsyncGenerator[str, Any]:
-    """Stream SQL rows to CSV."""
-    logger.debug("SQL query: %s", dataset.query)
-
-    output = StringIO()
-
-    if dataset.fields is None:
-        raise ValueError(
-            f"Requested dataset '{dataset.basename}' has no defined fields"
-        )
-
-    writer = csv.DictWriter(output, fieldnames=dataset.fields)
-
-    # Header
-    writer.writeheader()
-    output.seek(0)
-    yield output.readline()
-
-    # Rows
-    async for record in database.iterate(dataset.query):
-        output.seek(0)
-        writer.writerow(dict(zip(record.keys(), record.values())))
-        output.seek(0)
-        yield output.readline()
-
-
-async def sql2parquet(dataset: Dataset) -> AsyncGenerator[bytes, Any]:
+def sql2parquet(dataset: Dataset, chunksize: int = 5000) -> Generator:
     """Stream SQL rows to parquet."""
     logger.debug("SQL query: %s", dataset.query)
+    output = BytesIO()
 
-    # Get schema from a subset of data
-    records = await database.fetch_all(f"{dataset.query} LIMIT 10")
+    def get_batch(output: BytesIO) -> bytes:
+        """Get wrote batch content."""
+        size = output.tell()
+        output.seek(0)
+        return output.read(size)
 
-    def records2batch(records):
-        rows = [list(row._mapping) for row in records]
-        transposed = list(zip(*rows))
-        data = [pa.array(column) for column in transposed]
-        return pa.record_batch(data, names=dataset.fields)
+    with engine.connect() as conn:
+        # Get schema from a subset of data
+        schema = pa.Schema.from_pandas(
+            next(
+                pd.read_sql_query(
+                    dataset.query,
+                    conn,
+                    chunksize=settings.SCHEMA_SNIFFER_SIZE,
+                    dtype_backend=settings.DEFAULT_DTYPE_BACKEND,
+                    index_col=dataset.indexes,
+                )
+            )
+        )
+        writer = pq.ParquetWriter(output, schema=schema, compression="GZIP")
 
-    sample = records2batch(records)
+        for chunk in pd.read_sql_query(
+            dataset.query,
+            conn,
+            chunksize=chunksize,
+            dtype_backend=settings.DEFAULT_DTYPE_BACKEND,
+            index_col=dataset.indexes,
+        ):
+            writer.write_batch(
+                pa.RecordBatch.from_pandas(chunk, schema=schema, preserve_index=True)
+            )
+            yield get_batch(output)
+            output.seek(0)
 
-    sink = pa.BufferOutputStream()
-    writer = pq.ParquetWriter(sink, schema=sample.schema, compression="GZIP")
-
-    # Rows
-    batch_records = []
-    async for record in database.iterate(dataset.query):
-        batch_records.append(record)
-        if len(batch_records) < settings.PARQUET_BATCH_SIZE:
-            continue
-        # Prepare batch
-        batch = records2batch(batch_records)
-        writer.write_batch(batch)
-        batch_records = []
-
-    if len(batch_records):
-        batch = records2batch(batch_records)
-        writer.write_batch(batch)
     writer.close()
+    # When closing file, the parquet writer adds required footer and magic bytes. We
+    # need those so that the Parqet file is readable.
+    yield get_batch(output)
+    output.close()
 
-    yield bytes(sink.getvalue())
+
+def sql2csv(dataset: Dataset, chunksize: int = 5000) -> Generator[str, None, None]:
+    """Stream SQL rows to CSV."""
+    with engine.connect() as conn:
+        for c, chunk in enumerate(
+            pd.read_sql_query(dataset.query, conn, chunksize=chunksize)
+        ):
+            yield chunk.to_csv(header=True if c == 0 else False, index=False)
 
 
 async def stream_dataset(request: Request) -> StreamingResponse:
@@ -193,7 +185,7 @@ async def stream_dataset(request: Request) -> StreamingResponse:
         ) from exc
     media_type = MimeType[extension.name]
 
-    streamer: Optional[Callable[[Dataset], AsyncGenerator]] = None
+    streamer: Optional[Callable[[Dataset, int], Generator]] = None
     if extension == Extension.CSV:
         streamer = sql2csv
     elif extension == Extension.PARQUET:
@@ -204,12 +196,15 @@ async def stream_dataset(request: Request) -> StreamingResponse:
             detail=f"Streamer for extension '{extension}' does not exist",
         )
 
-    return StreamingResponse(streamer(dataset), media_type=media_type)
+    return StreamingResponse(
+        streamer(dataset, chunksize=settings.CHUNK_SIZE),
+        media_type=media_type,
+    )
 
 
 # Database
-database = databases.Database(settings.DATABASE_URL)
 logger.debug(f"{settings.DATABASE_URL=}")
+engine = create_engine(settings.DATABASE_URL)
 
 # Routes
 routes = get_routes_from_datasets(settings.datasets)
@@ -231,12 +226,13 @@ class ProfilingMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         profiler = Profiler(
-            interval=settings.profiler_interval, async_mode=settings.profiler_async_mode
+            interval=settings.PROFILER_INTERVAL,
+            async_mode=settings.PROFILER_ASYNC_MODE,
         )
         profiler.start()
         response = await call_next(request)
 
-        # As we use a StreamingResponse, we need to consume the generator
+        # As we use a StreamingResponse, we need to consume the iterator
         async for _ in response.body_iterator:
             pass
 
@@ -248,8 +244,7 @@ class ProfilingMiddleware(BaseHTTPMiddleware):
 @contextlib.asynccontextmanager
 async def lifespan(app):
     """Application lifespan."""
-    await database.connect()
-    app.state.datasets = await populate_datasets()
+    app.state.datasets = populate_datasets()
 
     if settings.SENTRY_DSN is not None:
         sentry_sdk.init(
@@ -264,7 +259,7 @@ async def lifespan(app):
         )
 
     yield
-    await database.disconnect()
+    engine.dispose()
 
 
 middleware = [Middleware(GZipMiddleware, minimum_size=1000)]

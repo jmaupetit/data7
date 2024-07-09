@@ -7,8 +7,10 @@ global:
   # The base url path for dataset urls
   datasets_root_url: "/d"
 
-  # Parquet
-  parquet_batch_size: 100
+  # Pandas chunks
+  chunk_size: 5000
+  schema_sniffer_size: 1000
+  default_dtype_backend: pyarrow
 
   # Pyinstrument
   profiler_interval: 0.001

@@ -12,6 +12,10 @@ and this project adheres to
 
 - Integrate pyinstrument profiler
 
+### Changed
+
+- Improve performances using Pandas
+
 ## [0.5.0] - 2024-07-08
 
 ### Changed

@@ -107,11 +107,55 @@ Default: `/d`
 
 ---
 
-#### `PARQUET_BATCH_SIZE`
+#### `CHUNK_SIZE`
 
-Default batch size to process for Parquet files.
+Size of batches to process, _i.e._ the number of SQL query result rows to
+process at each iteration.
 
-Default: 100
+Default: `5000`
+
+---
+
+#### `SCHEMA_SNIFFER_SIZE`
+
+The number of SQL query result rows used to infer a table schema (data types).
+
+Default: `1000`
+
+---
+
+#### `DEFAULT_DTYPE_BACKEND`
+
+The backend used to infer data types while fetching data from the database.
+Possible values are: `numpy_nullable` or `pyarrow` (see
+[Pandas documentation](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.convert_dtypes.html)).
+
+Default: `pyarrow`
+
+---
+
+#### `PROFILER_INTERVAL`
+
+From
+[pyinstrument's](https://pyinstrument.readthedocs.io/en/latest/reference.html#pyinstrument.Profiler.interval)
+documentation:
+
+> The minimum time, in seconds, between each stack sample. This translates into
+> the resolution of the sampling.
+
+Default: `0.001`
+
+---
+
+#### `PROFILER_ASYNC_MODE`
+
+From
+[pyinstrument's](https://pyinstrument.readthedocs.io/en/latest/reference.html#pyinstrument.Profiler.async_mode)
+documentation:
+
+> Configures how this Profiler tracks time in a program that uses async/await.
+
+Default: `enabled`
 
 ---
 
@@ -125,6 +169,19 @@ Default: `false`
 !!! Warning
 
     We strongly recommend to keep default `false` value when running Data7 in production.
+
+---
+
+#### `PROFILING`
+
+(De)Activate server request profiling. If set to `True`, adding the `?profile=1`
+argument to HTTP requests returns the profiling analysis instead of the expected
+requested dataset.
+
+Example query:
+[http://localhost:8000/d/invoices.csv?profile=1](http://localhost:8000/d/invoices.csv?profile=1)
+
+Default: `false`
 
 ---
 
@@ -157,7 +214,8 @@ Default: `None`
 
 #### `SENTRY_DSN`
 
-The DSN of your Sentry project, _e.g._ `https://account@sentry.io/project_id`. When not set, Sentry integration is not active.
+The DSN of your Sentry project, _e.g._ `https://account@sentry.io/project_id`.
+When not set, Sentry integration is not active.
 
 Default: `None`
 
@@ -194,13 +252,11 @@ database name you will query is `chinook`, depending on the database engine and
 driver you want to use, here is a table that summarizes dependencies you need to
 install and `DATABASE_URL` example values.
 
-| Database   | Dependency             | Example value                                              |
-| ---------- | ---------------------- | ---------------------------------------------------------- |
-| PostgreSQL | `databases[asyncpg]`   | `postgresql+asyncpg://data7:secret@localhost:5432/chinook` |
-|            | `databases[aiopg]`     | `postgresql+aiopg://data7:secret@localhost:5432/chinook`   |
-| MySQL      | `databases[aiomysql]`  | `mysql+aiomysql://data7:secret@localhost:3306/chinook`     |
-|            | `databases[asyncmy]`   | `mysql+asyncmy://data7:secret@localhost:3306/chinook`      |
-| SQLite     | `databases[aiosqlite]` | `sqlite+aiosqlite:///chinook.db`                           |
+| Database   | Dependency          | Example value                                      |
+| ---------- | ------------------- | -------------------------------------------------- |
+| PostgreSQL | `psycopg2-binary`   | `postgresql://data7:secret@localhost:5432/chinook` |
+| MySQL      | `mariadb-connector` | `mysql://data7:secret@localhost:3306/chinook`      |
+| SQLite     | -                   | `sqlite:///chinook.db`                             |
 
 ---
 
