@@ -56,7 +56,7 @@ docs-serve: ## run Data7 documentation server
 .PHONY: docs-serve
 
 run: ## run the api server
-	poetry run data7 run --log-level debug
+	poetry run data7 run --log-level debug --reload
 .PHONY: run
 
 # -- API
