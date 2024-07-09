@@ -10,6 +10,10 @@ global:
   # Parquet
   parquet_batch_size: 100
 
+  # Pyinstrument
+  profiler_interval: 0.001
+  profiler_async_mode: enabled
+
 # ---- DEFAULT ---------------------------------
 default:
   # Set debug to true for development, never for production!
@@ -22,6 +26,9 @@ default:
   # Sentry
   sentry_dsn: null
   sentry_traces_sample_rate: 1.0
+
+  # Pyinstrument
+  profiling: false
 
 # ---- PRODUCTION ------------------------------
 production:
@@ -38,6 +45,9 @@ production:
   # sentry_dsn:
   # sentry_traces_sample_rate: 1.0
 
+  # Pyinstrument
+  profiling: false
+
 #
 # /!\ FEEL FREE TO REMOVE ENVIRONMENTS BELOW /!\
 #
@@ -49,6 +59,9 @@ development:
   # Server
   host: "127.0.0.1"
   port: 8000
+
+  # Pyinstrument
+  profiling: true
 
 # ---- TESTING ---------------------------------
 testing:

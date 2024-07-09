@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Integrate pyinstrument profiler
+
 ## [0.5.0] - 2024-07-08
 
 ### Changed
