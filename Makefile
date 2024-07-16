@@ -69,27 +69,27 @@ lint: \
 
 lint-black: ## lint python sources with black
 	@echo 'lint:black started…'
-	poetry run black src/data7 tests
+	poetry run black src/data7 tests scripts
 .PHONY: lint-black
 
 lint-black-check: ## check python sources with black
 	@echo 'lint:black check started…'
-	poetry run black --check src/data7 tests
+	poetry run black --check src/data7 tests scripts
 .PHONY: lint-black-check
 
 lint-ruff: ## lint python sources with ruff
 	@echo 'lint:ruff started…'
-	poetry run ruff check src/data7 tests
+	poetry run ruff check src/data7 tests scripts
 .PHONY: lint-ruff
 
 lint-ruff-fix: ## lint and fix python sources with ruff
 	@echo 'lint:ruff-fix started…'
-	poetry run ruff check --fix src/data7 tests
+	poetry run ruff check --fix src/data7 tests scripts
 .PHONY: lint-ruff-fix
 
 lint-mypy: ## lint python sources with mypy
 	@echo 'lint:mypy started…'
-	poetry run mypy src/data7 tests
+	poetry run mypy src/data7 tests scripts
 .PHONY: lint-mypy
 
 
