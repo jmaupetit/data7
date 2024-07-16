@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "data7"
-version = "0.5.0"
+version = "0.6.0"
 description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
 authors = ["Julien Maupetit <julien@maupetit.net>"]
 license = "MIT"
@@ -31,6 +31,7 @@ uvicorn = {extras = ["standard"], version = "^0.30.1"}
 asyncpg = "^0.29.0"
 black = "^24.4.2"
 databases = {extras = ["aiosqlite"], version = "^0.9.0"}
+matplotlib = "^3.9.1"
 mkdocs-material = "^9.5.27"
 mypy = "^1.10.0"
 psycopg2-binary = "^2.9.9"
@@ -39,7 +40,6 @@ pytest-cov = "^5.0.0"
 pytest-httpx = "^0.30.0"
 ruff = ">=0.4.10,<0.6.0"
 types-pyyaml = "^6.0.12.20240311"
-matplotlib = "^3.9.1"
 
 [tool.poetry.scripts]
 data7 = "data7.cli:cli"
