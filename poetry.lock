@@ -2254,13 +2254,13 @@ sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
 name = "starlette"
-version = "0.37.2"
+version = "0.38.0"
 description = "The little ASGI library that shines."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "starlette-0.37.2-py3-none-any.whl", hash = "sha256:6fe59f29268538e5d0d182f2791a479a0c64638e6935d1c6989e63fb2699c6ee"},
-    {file = "starlette-0.37.2.tar.gz", hash = "sha256:9af890290133b79fc3db55474ade20f6220a364a0402e0b556e7cd5e1e093823"},
+    {file = "starlette-0.38.0-py3-none-any.whl", hash = "sha256:dd58f5854ca4fc476710e48d61b29fa4ff3639d42604a786f9d2091e64b95c7e"},
+    {file = "starlette-0.38.0.tar.gz", hash = "sha256:1ac2291e946a56bb5ca929dbb2332fc0dfd1e609c7e4d4f2056925cc0442874e"},
 ]
 
 [package.dependencies]
@@ -2620,4 +2620,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "346e9e0ed43e35b85c4fa7a32b224d0a70a518fc004e7707027a49fdad2e80dc"
+content-hash = "5abf9f88e3504e8b4b280d3e6cbea8e57bc1d95c396d72d3fa5b3cc214630122"
