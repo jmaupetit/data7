@@ -71,7 +71,7 @@ def init():
 #
 # Example settings for production environment
 production:
-  DATABASE_URL: "postgresql://user:pass@server:port/acme"
+  DATABASE_URL: "postgresql+psycopg://user:pass@server:port/acme"
     """,
             "yaml",
         )
