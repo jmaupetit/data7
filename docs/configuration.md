@@ -252,11 +252,11 @@ database name you will query is `chinook`, depending on the database engine and
 driver you want to use, here is a table that summarizes dependencies you need to
 install and `DATABASE_URL` example values.
 
-| Database   | Dependency          | Example value                                      |
-| ---------- | ------------------- | -------------------------------------------------- |
-| PostgreSQL | `psycopg2-binary`   | `postgresql://data7:secret@localhost:5432/chinook` |
-| MySQL      | `mariadb-connector` | `mysql://data7:secret@localhost:3306/chinook`      |
-| SQLite     | -                   | `sqlite:///chinook.db`                             |
+| Database   | Dependency             | Example value                                              |
+| ---------- | ---------------------- | ---------------------------------------------------------- |
+| PostgreSQL | `psycopg[binary,pool]` | `postgresql+psycopg://data7:secret@localhost:5432/chinook` |
+| MySQL      | `mariadb-connector`    | `mysql://data7:secret@localhost:3306/chinook`              |
+| SQLite     | -                      | `sqlite:///chinook.db`                                     |
 
 ---
 

@@ -13,6 +13,7 @@ and this project adheres to
 - Upgrade dynaconf to 3.2.6
 - Upgrade sentry-sdk to 2.11.0
 - Upgrade uvicorn to 0.30.3
+- Recommand using psycopg3 driver for PostgreSQL
 
 ## [0.6.0] - 2024-07-16
 
