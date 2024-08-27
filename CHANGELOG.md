@@ -11,8 +11,11 @@ and this project adheres to
 ### Changed
 
 - Upgrade dynaconf to 3.2.6
-- Upgrade sentry-sdk to 2.11.0
-- Upgrade uvicorn to 0.30.3
+- Upgrade pyinstrument to 0.5.7
+- Upgrade sentry-sdk to 2.13.0
+- Upgrade SQLAlchemy to 2.0.32
+- Upgrade typer to 0.12.5
+- Upgrade uvicorn to 0.30.6
 - Recommand using psycopg3 driver for PostgreSQL
 
 ## [0.6.0] - 2024-07-16
