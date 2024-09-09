@@ -18,15 +18,16 @@ from io import StringIO
 from typing import Any, AsyncGenerator
 
 import databases
-from data7.app import Dataset
-from data7.app import sql2csv as pd_sql2csv
-from data7.config import settings
 from pyinstrument import Profiler
 from rich.console import Console
 from rich.live import Live
 from rich.pretty import Pretty, pprint
 from rich.table import Table
 from sqlalchemy import create_engine
+
+from data7.app import Dataset
+from data7.app import sql2csv as pd_sql2csv
+from data7.config import settings
 
 # Databases
 database = databases.Database("postgresql+asyncpg://imdb:pass@localhost:5432/imdb")
