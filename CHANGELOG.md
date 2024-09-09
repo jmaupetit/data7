@@ -14,6 +14,7 @@ and this project adheres to
 - Upgrade pyinstrument to 0.5.7
 - Upgrade sentry-sdk to 2.13.0
 - Upgrade SQLAlchemy to 2.0.32
+- Upgrade starlette to 0.38.5
 - Upgrade typer to 0.12.5
 - Upgrade uvicorn to 0.30.6
 - Recommand using psycopg3 driver for PostgreSQL

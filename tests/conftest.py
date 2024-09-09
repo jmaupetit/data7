@@ -1,8 +1,9 @@
 """Tests configuration."""
 
 import pytest
-from data7.config import settings
 from typer.testing import CliRunner
+
+from data7.config import settings
 
 
 @pytest.fixture(scope="session", autouse=True)

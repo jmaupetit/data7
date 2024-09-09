@@ -4,6 +4,10 @@ from pathlib import PurePath
 
 import pyarrow as pa
 import pytest
+from pyarrow import parquet
+from starlette.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_501_NOT_IMPLEMENTED
+from starlette.testclient import TestClient
+
 from data7.app import (
     Dataset,
     Extension,
@@ -16,9 +20,6 @@ from data7.app import (
     stream_dataset,
 )
 from data7.config import settings
-from pyarrow import parquet
-from starlette.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_501_NOT_IMPLEMENTED
-from starlette.testclient import TestClient
 
 
 def test_populate_datasets(monkeypatch):
