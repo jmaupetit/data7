@@ -11,6 +11,7 @@ and this project adheres to
 ### Changed
 
 - Upgrade dynaconf to 3.2.6
+- Upgrade pyarrow to 17.0.0
 - Upgrade pyinstrument to 0.5.7
 - Upgrade sentry-sdk to 2.13.0
 - Upgrade SQLAlchemy to 2.0.32
