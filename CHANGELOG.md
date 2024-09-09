@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.7.0] - 2024-09-09
+
 ### Changed
 
 - Upgrade dynaconf to 3.2.6
@@ -18,7 +20,7 @@ and this project adheres to
 - Upgrade starlette to 0.38.5
 - Upgrade typer to 0.12.5
 - Upgrade uvicorn to 0.30.6
-- Recommand using psycopg3 driver for PostgreSQL
+- Recommend using psycopg3 driver for PostgreSQL
 
 ## [0.6.0] - 2024-07-16
 
@@ -75,7 +77,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.6.0...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.7.0...main
+[0.7.0]: https://github.com/jmaupetit/data7/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/jmaupetit/data7/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/jmaupetit/data7/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/jmaupetit/data7/compare/v0.4.0...v0.4.1
