@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade psycopg to 3.2.2
+- Upgrade sentry-sdk to 2.14.0
+- Upgrade sqlalchemy to 2.0.35
+
 ## [0.7.0] - 2024-09-09
 
 ### Changed
