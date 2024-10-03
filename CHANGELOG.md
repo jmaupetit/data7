@@ -10,9 +10,10 @@ and this project adheres to
 
 ### Changed
 
-- Upgrade psycopg to 3.2.2
-- Upgrade sentry-sdk to 2.14.0
+- Upgrade psycopg to 3.2.3
+- Upgrade sentry-sdk to 2.15.0
 - Upgrade sqlalchemy to 2.0.35
+- Upgrade starlette to 0.39.2
 
 ## [0.7.0] - 2024-09-09
 
