@@ -1947,21 +1947,21 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "virtualenv"]
 
 [[package]]
 name = "pytest-httpx"
-version = "0.30.0"
+version = "0.32.0"
 description = "Send responses to httpx."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pytest-httpx-0.30.0.tar.gz", hash = "sha256:755b8edca87c974dd4f3605c374fda11db84631de3d163b99c0df5807023a19a"},
-    {file = "pytest_httpx-0.30.0-py3-none-any.whl", hash = "sha256:6d47849691faf11d2532565d0c8e0e02b9f4ee730da31687feae315581d7520c"},
+    {file = "pytest_httpx-0.32.0-py3-none-any.whl", hash = "sha256:685d93ce5e5edb5e52310b72342cdc190bebf83aab058328943dd8bd8f6ac790"},
+    {file = "pytest_httpx-0.32.0.tar.gz", hash = "sha256:7807647e8254e5cff79bf2041ae272449ce915d3cf1bbecaa581c384163adb87"},
 ]
 
 [package.dependencies]
 httpx = "==0.27.*"
-pytest = ">=7,<9"
+pytest = "==8.*"
 
 [package.extras]
-testing = ["pytest-asyncio (==0.23.*)", "pytest-cov (==4.*)"]
+testing = ["pytest-asyncio (==0.24.*)", "pytest-cov (==5.*)"]
 
 [[package]]
 name = "python-dateutil"
@@ -2808,4 +2808,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "374c0ee19fcd9b74d6f9518bb07635ab9f9a6e957506dd35e3d11c24c3a4746c"
+content-hash = "3351d6a44a8ea52459c029d0c0c45d6ff9056195e7b68fb5c4c7ed02b53eb1cd"
