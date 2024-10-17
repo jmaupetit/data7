@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.8.0] - 2024-10-17
+
 ### Changed
 
 - Upgrade anyio to 4.6.2.post1
@@ -87,7 +89,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.7.0...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.8.0...main
+[0.8.0]: https://github.com/jmaupetit/data7/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/jmaupetit/data7/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/jmaupetit/data7/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/jmaupetit/data7/compare/v0.4.1...v0.5.0
