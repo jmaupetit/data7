@@ -13,9 +13,9 @@ and this project adheres to
 - Upgrade anyio to 4.6.2.post1
 - Upgrade psycopg to 3.2.3
 - Upgrade pyinstrument to 5.0.0
-- Upgrade sentry-sdk to 2.16.0
-- Upgrade sqlalchemy to 2.0.35
-- Upgrade starlette to 0.39.2
+- Upgrade sentry-sdk to 2.17.0
+- Upgrade sqlalchemy to 2.0.36
+- Upgrade starlette to 0.40.0
 - Upgrade uvicorn to 0.31.1
 
 ## [0.7.0] - 2024-09-09
