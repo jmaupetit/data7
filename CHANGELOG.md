@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade starlette to 0.41.2
+- Upgrade uvicorn to 0.32.0
+
 ## [0.8.0] - 2024-10-17
 
 ### Changed
