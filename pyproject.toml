@@ -24,7 +24,7 @@ python = "^3.11"
 sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
 sqlalchemy = "^2.0.31"
 starlette = "^0.41.2"
-typer = "^0.12.3"
+typer = "^0.13.1"
 uvicorn = {extras = ["standard"], version = "^0.32.0"}
 
 [tool.poetry.group.dev.dependencies]
@@ -37,8 +37,8 @@ mypy = "^1.13.0"
 psycopg = {extras = ["binary", "pool"], version = "^3.2.1"}
 pytest = "^8.2.2"
 pytest-cov = "^6.0.0"
-pytest-httpx = ">=0.30,<0.33"
-ruff = "^0.7.1"
+pytest-httpx = ">=0.30,<0.35"
+ruff = "^0.8.0"
 types-pyyaml = "^6.0.12.20240311"
 
 [tool.poetry.scripts]

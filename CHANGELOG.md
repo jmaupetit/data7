@@ -10,10 +10,11 @@ and this project adheres to
 
 ### Changed
 
-- Upgrade pyarrow to 18.0.0
+- Upgrade pyarrow to 18.2.0
 - Upgrade sentry-sdk to 2.18.0
 - Upgrade starlette to 0.41.2
-- Upgrade uvicorn to 0.32.0
+- Upgrade typer to 0.13.1
+- Upgrade uvicorn to 0.32.1
 
 ## [0.8.0] - 2024-10-17
 
