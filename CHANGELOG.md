@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Changed
 
+- Upgrade matplotlib to 3.10.0
 - Upgrade pyarrow to 18.2.0
 - Upgrade sentry-sdk to 2.18.0
 - Upgrade starlette to 0.41.2
