@@ -27,19 +27,19 @@ console = Console()
 class ExitCodes(IntEnum):
     """data7 exit codes."""
 
-    OK: int = 0
-    INCOMPLETE_CONFIGURATION: int = 1
-    INVALID_CONFIGURATION: int = 2
+    OK = 0
+    INCOMPLETE_CONFIGURATION = 1
+    INVALID_CONFIGURATION = 2
 
 
 class LogLevels(StrEnum):
     """Allowed log levels for the run command."""
 
-    DEBUG: str = "debug"
-    INFO: str = "info"
-    WARNING: str = "warning"
-    ERROR: str = "error"
-    CRITICAL: str = "critical"
+    DEBUG = "debug"
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
 
 
 @cli.command()
