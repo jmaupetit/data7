@@ -221,9 +221,27 @@ Default: `None`
 
 ---
 
+#### `SENTRY_ENABLE_TRACING`
+
+Toggle Sentry performance tracking feature.
+
+Default: `True`
+
+---
+
 #### `SENTRY_TRACES_SAMPLE_RATE`
 
-The sample rate of traces sent to sentry: 1.0 means 100% while 0.1 means 10%.
+The sample rate of traces sent to sentry: 1.0 means 100% while 0.1 means 10%. It
+should be adapted for production.
+
+Default: `1.0`
+
+---
+
+#### `SENTRY_PROFILES_SAMPLE_RATE`
+
+The sample rate of profiles sent to sentry: 1.0 means 100% while 0.1 means 10%.
+It should be adapted for production.
 
 Default: `1.0`
 

@@ -249,8 +249,9 @@ async def lifespan(app):
     if settings.SENTRY_DSN is not None:
         sentry_sdk.init(
             dsn=str(settings.SENTRY_DSN),
-            enable_tracing=True,
+            enable_tracing=settings.SENTRY_ENABLE_TRACING,
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+            profiles_sample_rate=settings.SENTRY_PROFILES_SAMPLE_RATE,
             release=importlib.metadata.version("data7"),
             environment=settings.EXECUTION_ENVIRONMENT,
             integrations=[

@@ -16,6 +16,7 @@ and this project adheres to
 - Upgrade starlette to 0.41.2
 - Upgrade typer to 0.15.1
 - Upgrade uvicorn to 0.32.1
+- Improve Sentry configuration (toggle tracing and configure profiling)
 
 ## [0.8.0] - 2024-10-17
 
