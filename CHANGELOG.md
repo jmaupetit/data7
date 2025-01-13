@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade sqlalchemy to 2.0.37
+- Upgrade starlette to 0.45.2
+- Upgrade uvicorn to 0.34.0
+
 ## [0.9.0] - 2025-01-07
 
 ### Changed
