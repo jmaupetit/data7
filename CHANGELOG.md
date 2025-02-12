@@ -13,8 +13,8 @@ and this project adheres to
 - Upgrade dynaconf to 3.2.7
 - Upgrade psycopg to 3.2.4
 - Upgrade pyarrow to 19.0.0
-- Upgrade sentry-sdk to 2.20.0
-- Upgrade sqlalchemy to 2.0.37
+- Upgrade sentry-sdk to 2.21.0
+- Upgrade sqlalchemy to 2.0.38
 - Upgrade starlette to 0.45.3
 - Upgrade uvicorn to 0.34.0
 
