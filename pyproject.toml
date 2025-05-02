@@ -18,7 +18,8 @@ classifiers = [
 [tool.poetry.dependencies]
 dynaconf = "^3.2.5"
 pandas = "^2.2.2"
-pyarrow = "^19.0.0"
+pip = "^25.1"
+pyarrow = "^20.0.0"
 pyinstrument = "^5.0.0"
 python = "^3.11"
 sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
