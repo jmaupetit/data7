@@ -2,6 +2,7 @@
 
 import copy
 import shutil
+import sys
 from enum import IntEnum, StrEnum
 from pathlib import Path
 from sqlite3 import OperationalError as SqliteOperationalError
@@ -12,6 +13,7 @@ import typer
 import uvicorn
 import yaml
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.syntax import Syntax
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
@@ -19,9 +21,12 @@ from sqlalchemy.exc import OperationalError
 from sqlalchemy.sql import text
 
 import data7
+from data7.models import Dataset, Extension
+from data7.streamers import sql2csv, sql2parquet
+from data7.utils import populate_datasets
 
 cli = typer.Typer(name="data7", no_args_is_help=True, pretty_exceptions_short=True)
-console = Console()
+console = Console(stderr=True)
 
 
 class ExitCodes(IntEnum):
@@ -30,6 +35,7 @@ class ExitCodes(IntEnum):
     OK = 0
     INCOMPLETE_CONFIGURATION = 1
     INVALID_CONFIGURATION = 2
+    INVALID_ARGUMENT = 3
 
 
 class LogLevels(StrEnum):
@@ -183,6 +189,35 @@ def check():
     check_datasets_queries(engine)
 
     console.print("\n💫 All checks are successful. w00t 🎉")
+
+
+@cli.command()
+def stream(extension: Extension, name: str):
+    """Stream selected dataset."""
+    datasets = data7.config.settings.datasets
+    names = [d.basename for d in datasets]
+    if name not in names:
+        console.print(f"❌ Dataset '{name}' not found.")
+        console.print(f"Allowed values are: {names}")
+        raise typer.Exit(ExitCodes.INVALID_ARGUMENT)
+
+    # Create database engine
+    engine = create_engine(data7.config.settings.DATABASE_URL)
+
+    # Get dataset
+    datasets = populate_datasets(engine)
+    dataset: Dataset = next((d for d in datasets if d.basename == name))
+    query_md = Markdown(f"🗃️ SQL Query\n```sql\n{dataset.query}\n```\n\n")
+    console.print(query_md)
+
+    # Start streaming
+    streamer = sql2csv
+    stream = sys.stdout
+    if extension == Extension.PARQUET:
+        streamer = sql2parquet
+        stream = sys.stdout.buffer
+    for chunk in streamer(engine, dataset, chunksize=data7.config.settings.CHUNK_SIZE):
+        stream.write(chunk)
 
 
 @cli.command()
