@@ -90,7 +90,7 @@ def _pd_sql2csv(dataset: Dataset, chunksize: int = 5000) -> float:
     """sql2any wrapper to handled database connection."""
     profiler.reset()
     profiler.start()
-    for _ in pd_sql2csv(dataset, chunksize):
+    for _ in pd_sql2csv(engine, dataset, chunksize):
         pass
     profiler.stop()
     return profiler.last_session.duration if profiler.last_session else 0.0

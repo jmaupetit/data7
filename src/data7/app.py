@@ -3,21 +3,14 @@
 import contextlib
 import importlib.metadata
 import logging
-from dataclasses import dataclass
 from enum import StrEnum
-from io import BytesIO
 from pathlib import PurePath
 from typing import Callable, Generator, List, Optional, Tuple
 
-import pandas as pd
-import pyarrow as pa
 import sentry_sdk
-from pyarrow import parquet as pq
 from pyinstrument import Profiler
 from sentry_sdk.integrations.starlette import StarletteIntegration
-from sqlalchemy import create_engine
-from sqlalchemy.exc import OperationalError
-from sqlalchemy.sql import text
+from sqlalchemy import Engine, create_engine
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
@@ -29,18 +22,11 @@ from starlette.routing import Route
 from starlette.status import HTTP_501_NOT_IMPLEMENTED
 
 from .config import settings
+from .models import Dataset
+from .streamers import sql2csv, sql2parquet
+from .utils import populate_datasets
 
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class Dataset:
-    """Dataset model."""
-
-    basename: str
-    query: str
-    # Indexes can be defined for a dataset query
-    indexes: Optional[List[str]] = None
 
 
 class Extension(StrEnum):
@@ -55,37 +41,6 @@ class MimeType(StrEnum):
 
     CSV = "text/csv"
     PARQUET = "application/vnd.apache.parquet"
-
-
-def populate_datasets() -> List[Dataset]:
-    """Validate configured datasets and get sql query expected field names."""
-    logging.debug("Will populate datasets given configuration...")
-    datasets = []
-
-    with engine.connect() as conn:
-        for raw_dataset in settings.datasets:
-            dataset = Dataset(**raw_dataset)
-
-            # Validate database query and get expected field names
-            try:
-                result = conn.execute(text(dataset.query))
-            except OperationalError as exc:
-                raise ValueError(
-                    f"Dataset '{dataset.basename}' query failed, maybe SQL is invalid"
-                ) from exc
-
-            # Query returns no result, we cannot set fields.
-            if result.scalar() is None:
-                logger.warning(
-                    "'%s' query returned no result, dataset will be ignored",
-                    dataset.basename,
-                )
-                continue
-
-            datasets.append(dataset)
-
-    logger.info("Active datasets: %s", ", ".join(d.basename for d in datasets))
-    return datasets
 
 
 def get_dataset_from_url(
@@ -118,61 +73,6 @@ def get_routes_from_datasets(datasets):
     ]
 
 
-def sql2parquet(dataset: Dataset, chunksize: int = 5000) -> Generator:
-    """Stream SQL rows to parquet."""
-    logger.debug("SQL query: %s", dataset.query)
-    output = BytesIO()
-
-    def get_batch(output: BytesIO) -> bytes:
-        """Get wrote batch content."""
-        size = output.tell()
-        output.seek(0)
-        return output.read(size)
-
-    with engine.connect() as conn:
-        # Get schema from a subset of data
-        schema = pa.Schema.from_pandas(
-            next(
-                pd.read_sql_query(
-                    dataset.query,
-                    conn,
-                    chunksize=settings.SCHEMA_SNIFFER_SIZE,
-                    dtype_backend=settings.DEFAULT_DTYPE_BACKEND,
-                    index_col=dataset.indexes,
-                )
-            )
-        )
-        writer = pq.ParquetWriter(output, schema=schema, compression="GZIP")
-
-        for chunk in pd.read_sql_query(
-            dataset.query,
-            conn,
-            chunksize=chunksize,
-            dtype_backend=settings.DEFAULT_DTYPE_BACKEND,
-            index_col=dataset.indexes,
-        ):
-            writer.write_batch(
-                pa.RecordBatch.from_pandas(chunk, schema=schema, preserve_index=True)
-            )
-            yield get_batch(output)
-            output.seek(0)
-
-    writer.close()
-    # When closing file, the parquet writer adds required footer and magic bytes. We
-    # need those so that the Parqet file is readable.
-    yield get_batch(output)
-    output.close()
-
-
-def sql2csv(dataset: Dataset, chunksize: int = 5000) -> Generator[str, None, None]:
-    """Stream SQL rows to CSV."""
-    with engine.connect() as conn:
-        for c, chunk in enumerate(
-            pd.read_sql_query(dataset.query, conn, chunksize=chunksize)
-        ):
-            yield chunk.to_csv(header=True if c == 0 else False, index=False)
-
-
 async def stream_dataset(request: Request) -> StreamingResponse:
     """Stream given dataset."""
     try:
@@ -185,7 +85,7 @@ async def stream_dataset(request: Request) -> StreamingResponse:
         ) from exc
     media_type = MimeType[extension.name]
 
-    streamer: Optional[Callable[[Dataset, int], Generator]] = None
+    streamer: Optional[Callable[[Engine, Dataset, int], Generator]] = None
     if extension == Extension.CSV:
         streamer = sql2csv
     elif extension == Extension.PARQUET:
@@ -197,7 +97,7 @@ async def stream_dataset(request: Request) -> StreamingResponse:
         )
 
     return StreamingResponse(
-        streamer(dataset, chunksize=settings.CHUNK_SIZE),
+        streamer(engine, dataset, chunksize=settings.CHUNK_SIZE),
         media_type=media_type,
     )
 
@@ -244,7 +144,7 @@ class ProfilingMiddleware(BaseHTTPMiddleware):
 @contextlib.asynccontextmanager
 async def lifespan(app):
     """Application lifespan."""
-    app.state.datasets = populate_datasets()
+    app.state.datasets = populate_datasets(engine)
 
     if settings.SENTRY_DSN is not None:
         sentry_sdk.init(
