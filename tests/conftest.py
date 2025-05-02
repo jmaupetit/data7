@@ -1,6 +1,7 @@
 """Tests configuration."""
 
 import pytest
+from sqlalchemy import create_engine
 from typer.testing import CliRunner
 
 from data7.config import settings
@@ -10,6 +11,12 @@ from data7.config import settings
 def set_test_settings():
     """Force testing environment for settings."""
     settings.configure(FORCE_ENV_FOR_DYNACONF="testing")
+
+
+@pytest.fixture
+def db_engine():
+    """Get database engine."""
+    yield create_engine(settings.DATABASE_URL)
 
 
 @pytest.fixture
