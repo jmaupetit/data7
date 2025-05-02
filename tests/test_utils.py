@@ -2,10 +2,8 @@
 
 import pytest
 
-from data7.app import (
-    Dataset,
-)
 from data7.config import settings
+from data7.models import Dataset
 from data7.utils import populate_datasets
 
 

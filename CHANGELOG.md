@@ -8,7 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Stream datasets from the CLI using the new `stream` command
+
 ### Changed
+
+#### Dependencies
 
 - Upgrade dynaconf to 3.2.10
 - Upgrade pandas to 2.2.3
@@ -24,17 +30,22 @@ and this project adheres to
 
 ### Changed
 
+- Improve Sentry configuration (toggle tracing and configure profiling)
+
+#### Dependencies
+
 - Upgrade matplotlib to 3.10.0
 - Upgrade pyarrow to 18.2.0
 - Upgrade sentry-sdk to 2.18.0
 - Upgrade starlette to 0.41.2
 - Upgrade typer to 0.15.1
 - Upgrade uvicorn to 0.32.1
-- Improve Sentry configuration (toggle tracing and configure profiling)
 
 ## [0.8.0] - 2024-10-17
 
 ### Changed
+
+#### Dependencies
 
 - Upgrade anyio to 4.6.2.post1
 - Upgrade psycopg to 3.2.3
@@ -48,6 +59,10 @@ and this project adheres to
 
 ### Changed
 
+- Recommend using psycopg3 driver for PostgreSQL
+
+#### Dependencies
+
 - Upgrade dynaconf to 3.2.6
 - Upgrade pyarrow to 17.0.0
 - Upgrade pyinstrument to 0.5.7
@@ -56,7 +71,6 @@ and this project adheres to
 - Upgrade starlette to 0.38.5
 - Upgrade typer to 0.12.5
 - Upgrade uvicorn to 0.30.6
-- Recommend using psycopg3 driver for PostgreSQL
 
 ## [0.6.0] - 2024-07-16
 

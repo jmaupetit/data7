@@ -3,6 +3,8 @@
 import sqlite3
 from pathlib import Path
 
+import pytest
+
 import data7
 from data7.cli import ExitCodes, cli
 
@@ -59,7 +61,7 @@ def test_check_command_with_invalid_configuration_file(runner):
 development:
   foo: 'bar'
  indentation_matter:
-        """
+            """
         )
         result = runner.invoke(cli, ["check"])
         assert result.exit_code == ExitCodes.INVALID_CONFIGURATION
@@ -74,7 +76,7 @@ def test_check_command_with_invalid_database_url(runner):
             """
 development:
   DATABASE_URL: "postgresql://foo:bar@localhost:5432/lol"
-        """
+            """
         )
         result = runner.invoke(
             cli,
@@ -97,14 +99,13 @@ testing:
   datasets:
     - basename: places
       query: "SELECT * FROM Places"
-        """
+            """
         )
-        # Force `data7.yaml` reload
-        data7.config.settings.load_file(path=data7_configuration)
 
         # Create database
-        Path("db").mkdir()
-        connection = sqlite3.connect("db/tests.db")
+        db_path = Path("db/tests.db")
+        db_path.parent.mkdir()
+        connection = sqlite3.connect(db_path)
         connection.close()
 
         result = runner.invoke(
@@ -113,3 +114,26 @@ testing:
             catch_exceptions=False,
         )
         assert result.exit_code == ExitCodes.INVALID_CONFIGURATION
+
+
+@pytest.mark.parametrize("extension", ("csv", "parquet"))
+def test_stream_command_with_invalid_dataset(runner, extension):
+    """Test the `data7 stream [extension]` command with an invalid dataset."""
+    result = runner.invoke(cli, ["stream", extension, "foo"])
+    assert result.exit_code == ExitCodes.INVALID_ARGUMENT
+    assert "Dataset 'foo' not found." in result.output
+
+
+@pytest.mark.parametrize(
+    "extension,dataset",
+    (
+        ("csv", "employees"),
+        ("parquet", "customers"),
+        ("csv", "employees"),
+        ("parquet", "customers"),
+    ),
+)
+def test_stream_command(runner, extension, dataset):
+    """Test the `data7 stream [extension]` command with an invalid dataset."""
+    result = runner.invoke(cli, ["stream", extension, dataset])
+    assert result.exit_code == ExitCodes.OK

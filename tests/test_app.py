@@ -7,13 +7,12 @@ from starlette.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_501_NOT_IMPLE
 from starlette.testclient import TestClient
 
 from data7.app import (
-    Dataset,
-    Extension,
     app,
     get_dataset_from_url,
     get_routes_from_datasets,
     stream_dataset,
 )
+from data7.models import Dataset, Extension
 
 
 def test_get_dataset_from_url():

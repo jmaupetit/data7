@@ -3,7 +3,6 @@
 import contextlib
 import importlib.metadata
 import logging
-from enum import StrEnum
 from pathlib import PurePath
 from typing import Callable, Generator, List, Optional, Tuple
 
@@ -22,25 +21,11 @@ from starlette.routing import Route
 from starlette.status import HTTP_501_NOT_IMPLEMENTED
 
 from .config import settings
-from .models import Dataset
+from .models import Dataset, Extension, MimeType
 from .streamers import sql2csv, sql2parquet
 from .utils import populate_datasets
 
 logger = logging.getLogger(__name__)
-
-
-class Extension(StrEnum):
-    """Supported formats extensions."""
-
-    CSV = "csv"
-    PARQUET = "parquet"
-
-
-class MimeType(StrEnum):
-    """MimeTypes for supported formats."""
-
-    CSV = "text/csv"
-    PARQUET = "application/vnd.apache.parquet"
 
 
 def get_dataset_from_url(

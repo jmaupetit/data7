@@ -42,3 +42,12 @@ jobs:
         env:
           ENV_FOR_DYNACONF: development
         run: timeout --preserve-status 5 data7 run --reload
+      - name: Stream datasets
+        working-directory: /tmp/data7
+        env:
+          ENV_FOR_DYNACONF: development
+        run: |
+          data7 stream csv invoices > /dev/null
+          data7 stream parquet invoices > /dev/null
+          data7 stream csv tracks > /dev/null
+          data7 stream parquet tracks > /dev/null
