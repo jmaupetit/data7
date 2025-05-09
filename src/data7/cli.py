@@ -193,7 +193,7 @@ def check():
 
 @cli.command()
 def stream(extension: Extension, name: str):
-    """Stream selected dataset."""
+    """Stream a dataset given its name and a selected extension."""
     datasets = data7.config.settings.datasets
     names = [d.basename for d in datasets]
     if name not in names:
@@ -254,3 +254,8 @@ def run(  # noqa: PLR0913
         log_level=log_level,
         log_config=log_config,
     )
+
+
+# Get a provisionned Click instance to automatically generate CLI commands documentation
+# using the mkdocs-click module
+cli_click = typer.main.get_command(cli)
