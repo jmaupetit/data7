@@ -16,13 +16,13 @@ and this project adheres to
 
 #### Dependencies
 
-- Upgrade dynaconf to 3.2.10
+- Upgrade dynaconf to 3.2.11
 - Upgrade pandas to 2.2.3
 - Upgrade pyarrow to 20.0.0
 - Upgrade pyinstrument to 5.0.1
 - Upgrade sentry-sdk to 2.27.0
 - Upgrade sqlalchemy to 2.0.40
-- Upgrade starlette to 0.45.3
+- Upgrade starlette to 0.46.2
 - Upgrade typer to 0.15.3
 - Upgrade uvicorn to 0.34.2
 
