@@ -6,6 +6,7 @@ repo_name: jmaupetit/data7
 nav:
   - Introduction: "index.md"
   - Tutorial: "tutorial.md"
+  - Command Line Interface: "commands.md"
   - Configuration: "configuration.md"
   - Contribute:
       - Code of conduct: "code_of_conduct.md"
@@ -45,6 +46,7 @@ theme:
 
 markdown_extensions:
   - admonition
+  - mkdocs-click
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
