@@ -16,6 +16,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
+click = "8.1.8"
 dynaconf = "^3.2.5"
 pandas = "^2.2.2"
 pip = "^25.1"
