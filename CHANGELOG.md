@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Make database connection pool configurable
+
 ## [0.10.0] - 2025-05-09
 
 ### Added
