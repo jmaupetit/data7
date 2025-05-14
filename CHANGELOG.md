@@ -12,6 +12,13 @@ and this project adheres to
 
 - Make database connection pool configurable
 
+### Changed
+
+#### Dependencies
+
+- Upgrade psycopg to 3.2.9
+- Upgrade sentry-sdk to 2.28.0
+
 ## [0.10.0] - 2025-05-09
 
 ### Added
