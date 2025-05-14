@@ -7,6 +7,12 @@ global:
   # The base url path for dataset urls
   datasets_root_url: "/d"
 
+  # Database connection pool
+  db_pool_check: true
+  db_pool_recycle: 3600
+  db_pool_size: 5
+  db_pool_max_overflow: 10
+
   # Pandas chunks
   chunk_size: 5000
   schema_sniffer_size: 1000

@@ -89,7 +89,13 @@ async def stream_dataset(request: Request) -> StreamingResponse:
 
 # Database
 logger.debug(f"{settings.DATABASE_URL=}")
-engine = create_engine(settings.DATABASE_URL)
+engine = create_engine(
+    settings.DATABASE_URL,
+    pool_pre_ping=settings.db_pool_check,
+    pool_recycle=settings.db_pool_recycle,
+    pool_size=settings.db_pool_size,
+    max_overflow=settings.db_pool_max_overflow,
+)
 
 # Routes
 routes = get_routes_from_datasets(settings.datasets)
