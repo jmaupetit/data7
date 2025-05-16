@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.11.1] - 2025-05-16
+
 ### Changed
 
 #### Dependencies
@@ -148,7 +150,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.11.0...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.11.1...main
+[0.11.1]: https://github.com/jmaupetit/data7/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/jmaupetit/data7/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/jmaupetit/data7/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/jmaupetit/data7/compare/v0.8.0...v0.9.0
