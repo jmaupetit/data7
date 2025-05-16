@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Downgrade pandas to at least 2.1.4
+
 ## [0.11.0] - 2025-05-14
 
 ### Added
