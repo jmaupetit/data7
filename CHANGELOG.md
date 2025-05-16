@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Downgrade typer to at least 0.12.0
+
 ## [0.11.1] - 2025-05-16
 
 ### Changed
