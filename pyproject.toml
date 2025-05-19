@@ -26,7 +26,7 @@ python = "^3.11"
 sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
 sqlalchemy = "^2.0.30"
 starlette = "^0.46.2"
-typer = "^0.12.0"
+typer = ">=0.12,<0.16"
 uvicorn = {extras = ["standard"], version = "^0.34.0"}
 
 [tool.poetry.group.dev.dependencies]
