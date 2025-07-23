@@ -8,6 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Upgrade pyarrow to 21.0.0
+- Upgrade starlette to 0.47.2
+- Upgrade typer to 0.16.0
+- Upgrade uvicorn to 0.35.0
+
 ## [0.11.2] - 2025-05-16
 
 ### Changed
