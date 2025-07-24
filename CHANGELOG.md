@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Downgrade pyarrow to at least 20.0.0
+
 ## [0.12.0] - 2025-07-24
 
 ### Changed
