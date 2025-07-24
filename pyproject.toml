@@ -40,7 +40,7 @@ psycopg = {extras = ["binary", "pool"], version = "^3.2.1"}
 pytest = "^8.2.2"
 pytest-cov = "^6.0.0"
 pytest-httpx = ">=0.30,<0.36"
-ruff = "^0.11.8"
+ruff = ">=0.11.8,<0.13.0"
 types-pyyaml = "^6.0.12.20240311"
 
 [tool.poetry.scripts]
