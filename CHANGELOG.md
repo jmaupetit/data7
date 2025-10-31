@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.13.2] - 2025-10-31
+
+### Fixed 
+
+- Upgrade starlette to 0.49.1
+
 ## [0.13.1] - 2025-10-31
 
 ### Changed
@@ -199,7 +205,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.13.1...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v0.13.2...main
+[0.13.2]: https://github.com/jmaupetit/data7/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/jmaupetit/data7/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/jmaupetit/data7/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/jmaupetit/data7/compare/v0.12.0...v0.12.1
