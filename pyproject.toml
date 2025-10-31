@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "data7"
-version = "0.13.0"
+version = "0.13.1"
 description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
 authors = ["Julien Maupetit <julien@maupetit.net>"]
 license = "MIT"
@@ -24,7 +24,7 @@ pyinstrument = "^5.0.0"
 python = "^3.11"
 sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
 sqlalchemy = "^2.0.30"
-starlette = ">=0.47.2,<0.50.0"
+starlette = "^0.47.2"
 typer = "^0.16.0"
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
 
