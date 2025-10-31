@@ -8,6 +8,18 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Upgrade dynaconf to 3.2.12
+- Upgrade pandas to 2.3.3
+- Upgrade pyinstrument to 5.1.1
+- Upgrade sentry-sdk to 2.43.0
+- Upgrade sqlalchemy to 2.0.44
+- Upgrade starlette to 0.47.3
+- Upgrade typer to 0.16.1
+
 ## [0.12.1] - 2025-07-24
 
 ### Changed
