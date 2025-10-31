@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+#### Dependencies
+
+- Upgrade starlette to 0.49.1
+
 ## [0.13.0] - 2025-10-31
 
 ### Changed
