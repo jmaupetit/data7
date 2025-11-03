@@ -24,7 +24,7 @@ pyinstrument = "^5.0.0"
 python = "^3.11"
 sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
 sqlalchemy = "^2.0.30"
-starlette = "^0.49.1"
+starlette = ">=0.49.1,<0.51.0"
 typer = "^0.16.0"
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
 
