@@ -1,50 +1,59 @@
-[tool.poetry]
+[project]
 name = "data7"
 version = "0.13.2"
 description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
-authors = ["Julien Maupetit <julien@maupetit.net>"]
+authors = [
+  {name="Julien Maupetit", email="julien@maupetit.net"},
+]
 license = "MIT"
 readme = "README.md"
-homepage = "https://jmaupetit.github.io/data7/"
-repository = "https://github.com/jmaupetit/data7"
-documentation = "https://jmaupetit.github.io/data7/"
 keywords = ["database", "dataset", "SQL", "Parquet", "CSV", "HTTP"]
+requires-python = ">=3.11"
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 5 - Production/Stable",
   "Topic :: Database",
   "Topic :: Internet :: WWW/HTTP :: WSGI",
 ]
+dependencies = [
+    "dynaconf>=3.2.12",
+    "pandas>=2.3.3",
+    "pyarrow>=22.0.0",
+    "pyinstrument>=5.1.2",
+    "sentry-sdk[starlette]>=2.48.0",
+    "sqlalchemy>=2.0.45",
+    "starlette>=0.50.0",
+    "typer>=0.21.0",
+    "uvicorn[standard]>=0.40.0",
+]
 
-[tool.poetry.dependencies]
-dynaconf = "^3.2.5"
-pandas = "^2.1.4"
-pip = "^25.1"
-pyarrow = "^20.0.0"
-pyinstrument = "^5.0.0"
-python = "^3.11"
-sentry-sdk = {extras = ["starlette"], version = "^2.7.1"}
-sqlalchemy = "^2.0.30"
-starlette = "^0.49.1"
-typer = "^0.16.0"
-uvicorn = {extras = ["standard"], version = "^0.35.0"}
+[dependency-groups]
+dev = [
+    "asyncpg>=0.31.0",
+    "black>=25.12.0",
+    "databases>=0.9.0",
+    "matplotlib>=3.10.8",
+    "mkdocs-click>=0.9.0",
+    "mkdocs-material>=9.7.1",
+    "mypy>=1.19.1",
+    "psycopg[binary,pool]>=3.3.2",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pytest-httpx>=0.36.0",
+    "ruff>=0.14.10",
+    "types-pyyaml>=6.0.12.20250915",
+]
 
-[tool.poetry.group.dev.dependencies]
-asyncpg = "^0.30.0"
-black = ">=24.4.2,<26.0.0"
-databases = {extras = ["aiosqlite"], version = "^0.9.0"}
-matplotlib = "^3.10.0"
-mkdocs-click = "^0.9.0"
-mkdocs-material = "^9.5.27"
-mypy = "^1.13.0"
-psycopg = {extras = ["binary", "pool"], version = "^3.2.1"}
-pytest = "^8.2.2"
-pytest-cov = "^6.0.0"
-pytest-httpx = ">=0.30,<0.36"
-ruff = ">=0.11.8,<0.13.0"
-types-pyyaml = "^6.0.12.20240311"
+[project.urls]
+Homepage = "https://jmaupetit.github.io/data7/"
+Repository = "https://github.com/jmaupetit/data7"
+Documentation = "https://jmaupetit.github.io/data7/"
 
-[tool.poetry.scripts]
+[project.scripts]
 data7 = "data7.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 # Third party packages configuration
 [tool.coverage.run]
@@ -97,6 +106,3 @@ files = "./**/*.py"
 exclude = []
 ignore_missing_imports = true
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

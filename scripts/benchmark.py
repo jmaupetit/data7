@@ -5,7 +5,7 @@ the CSV native library against Pandas.
 
 You can run this script with the following command:
 
-poetry run python scripts/benchmark.py
+uv run python scripts/benchmark.py
 
 For performance testing, we use the imdb-sql project to seed the database:
 https://github.com/jmaupetit/imdb-sql
@@ -68,7 +68,7 @@ async def sql2csv(dataset: Dataset) -> AsyncGenerator[str, Any]:
     # Rows
     async for record in database.iterate(dataset.query):
         output.seek(0)
-        writer.writerow(dict(zip(record.keys(), record.values())))
+        writer.writerow(dict(zip(record.keys(), record.values(), strict=True)))
         output.seek(0)
         yield output.readline()
 
@@ -133,7 +133,7 @@ with Live(table, refresh_per_second=4):
             p = _pd_sql2csv(dataset, chunksize)
             pandas.append(p)
             ratios.append(legacy / p)
-        values = (v for couple in zip(pandas, ratios) for v in couple)
+        values = (v for couple in zip(pandas, ratios, strict=True) for v in couple)
 
         table.add_row(
             dataset.basename,

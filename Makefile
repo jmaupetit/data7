@@ -35,28 +35,28 @@ bootstrap: \
 .PHONY: bootstrap
 
 build: ## install project
-	poetry install
+	uv sync --locked --all-extras --dev
 .PHONY: build
 
 check: ## check data7 configuration
-	poetry run data7 check
+	uv run data7 check
 .PHONY: check
 
 
 docs: ## build Data7 documentation
-	poetry run mkdocs build
+	uv run mkdocs build
 .PHONY: docs
 
 docs-publish: ## publish Data7 documentation
-	poetry run mkdocs gh-deploy --force
+	uv run mkdocs gh-deploy --force
 .PHONY: docs-publish
 
 docs-serve: ## run Data7 documentation server
-	poetry run mkdocs serve -a localhost:8888
+	uv run mkdocs serve -a localhost:8888 -w ./docs/
 .PHONY: docs-serve
 
 run: ## run the api server
-	poetry run data7 run --log-level debug --reload
+	uv run data7 run --log-level debug --reload
 .PHONY: run
 
 # -- API
@@ -69,32 +69,31 @@ lint: \
 
 lint-black: ## lint python sources with black
 	@echo 'lint:black started…'
-	poetry run black src/data7 tests scripts
+	uv run black src/data7 tests scripts
 .PHONY: lint-black
 
 lint-black-check: ## check python sources with black
 	@echo 'lint:black check started…'
-	poetry run black --check src/data7 tests scripts
+	uv run black --check src/data7 tests scripts
 .PHONY: lint-black-check
 
 lint-ruff: ## lint python sources with ruff
 	@echo 'lint:ruff started…'
-	poetry run ruff check src/data7 tests scripts
+	uv run ruff check src/data7 tests scripts
 .PHONY: lint-ruff
 
 lint-ruff-fix: ## lint and fix python sources with ruff
 	@echo 'lint:ruff-fix started…'
-	poetry run ruff check --fix src/data7 tests scripts
+	uv run ruff check --fix src/data7 tests scripts
 .PHONY: lint-ruff-fix
 
 lint-mypy: ## lint python sources with mypy
 	@echo 'lint:mypy started…'
-	poetry run mypy src/data7 tests scripts
+	uv run mypy src/data7 tests scripts
 .PHONY: lint-mypy
 
-
 test: ## run tests
-	poetry run pytest
+	uv run pytest
 .PHONY: test
 
 # -- Misc
