@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-01-05
+
 ### Changed 
 
 - Decrease dependency constraints
@@ -216,7 +218,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v1.0.0...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v1.0.1...main
+[1.0.1]: https://github.com/jmaupetit/data7/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/jmaupetit/data7/compare/v0.13.2...v1.0.0
 [0.13.2]: https://github.com/jmaupetit/data7/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/jmaupetit/data7/compare/v0.13.0...v0.13.1
