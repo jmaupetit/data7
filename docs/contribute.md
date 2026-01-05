@@ -4,7 +4,7 @@ Contributing to Data7 requires the following dependencies to be installed:
 
 - [GNU Make](https://www.gnu.org/software/make/)
 - [Curl](https://curl.se/)
-- [Poetry](https://python-poetry.org/)
+- [uv](https://docs.astral.sh/uv/)
 
 !!! Note
 

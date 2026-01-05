@@ -51,6 +51,20 @@ package manager.
     poetry add data7
     ```
 
+=== "uv"
+
+    ```sh
+    # Create a directory for our new project
+    mkdir open-chinook
+    cd open-chinook
+
+    # Set up a new uv project
+    uv init
+
+    # Add data7 as a project dependency
+    uv add data7
+    ```
+
 Once installed, it comes with a
 [CLI](https://en.wikipedia.org/wiki/Command-line_interface). As long as the
 installation directory is in your `PATH`, the `data7` command can be invoked as
@@ -72,6 +86,12 @@ follow:
 
     ```sh
     poetry run data7 --help
+    ```
+
+=== "uv"
+
+    ```sh
+    uv run data7 --help
     ```
 
 Expected command usage output should look like the following:
@@ -148,6 +168,12 @@ server. Those can be created using the `data7 init` command.
 
     ```sh
     poetry run data7 init
+    ```
+
+=== "uv"
+
+    ```sh
+    uv run data7 init
     ```
 
 Three configuration files should have been created:
@@ -376,6 +402,12 @@ have while setting up your project.
     poetry run data7 check
     ```
 
+=== "uv"
+
+    ```sh
+    uv run data7 check
+    ```
+
 If things are not properly configured, the command output will let you know what
 seems buggy.
 
@@ -402,6 +434,12 @@ the `run` command:
     poetry run data7 run
     ```
 
+=== "uv"
+
+    ```sh
+    uv run data7 run
+    ```
+
 And 💥 your Data7 server is running at: [localhost:8000](http://localhost:8000)
 
 !!! Tip
@@ -426,6 +464,12 @@ And 💥 your Data7 server is running at: [localhost:8000](http://localhost:8000
 
         ```sh
         poetry run data7 run --port 8080
+        ```
+
+    === "uv"
+
+        ```sh
+        uv run data7 run --port 8080
         ```
 
 If you are curious and test the root URL of your server, it should respond with

@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed 
+
+- Update python version compatibility to >= 3.11
+- Build the python package using `uv` & hatchling
+
 ## [0.13.2] - 2025-10-31
 
 ### Fixed 
