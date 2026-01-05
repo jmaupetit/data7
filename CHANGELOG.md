@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-01-05
+
 ### Changed 
 
 - Update python version compatibility to >= 3.11
@@ -210,7 +212,8 @@ and this project adheres to
 - Implement CSV output format
 - Implement Parquet output format
 
-[unreleased]: https://github.com/jmaupetit/data7/compare/v0.13.2...main
+[unreleased]: https://github.com/jmaupetit/data7/compare/v1.0.0...main
+[1.0.0]: https://github.com/jmaupetit/data7/compare/v0.13.2...v1.0.0
 [0.13.2]: https://github.com/jmaupetit/data7/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/jmaupetit/data7/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/jmaupetit/data7/compare/v0.12.1...v0.13.0
