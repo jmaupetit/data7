@@ -448,32 +448,32 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "dynaconf", specifier = ">=3.2.12" },
-    { name = "pandas", specifier = ">=2.3.3" },
-    { name = "pyarrow", specifier = ">=22.0.0" },
-    { name = "pyinstrument", specifier = ">=5.1.2" },
-    { name = "sentry-sdk", extras = ["starlette"], specifier = ">=2.48.0" },
-    { name = "sqlalchemy", specifier = ">=2.0.45" },
-    { name = "starlette", specifier = ">=0.50.0" },
-    { name = "typer", specifier = ">=0.21.0" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.40.0" },
+    { name = "dynaconf", specifier = ">=3" },
+    { name = "pandas", specifier = ">=2" },
+    { name = "pyarrow", specifier = ">=20" },
+    { name = "pyinstrument", specifier = ">=5" },
+    { name = "sentry-sdk", extras = ["starlette"], specifier = ">=2" },
+    { name = "sqlalchemy", specifier = ">=2" },
+    { name = "starlette", specifier = ">=0.1" },
+    { name = "typer", specifier = ">=0.1" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.1" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "asyncpg", specifier = ">=0.31.0" },
-    { name = "black", specifier = ">=25.12.0" },
-    { name = "databases", specifier = ">=0.9.0" },
-    { name = "matplotlib", specifier = ">=3.10.8" },
-    { name = "mkdocs-click", specifier = ">=0.9.0" },
-    { name = "mkdocs-material", specifier = ">=9.7.1" },
-    { name = "mypy", specifier = ">=1.19.1" },
-    { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.2" },
-    { name = "pytest", specifier = ">=9.0.2" },
-    { name = "pytest-cov", specifier = ">=7.0.0" },
-    { name = "pytest-httpx", specifier = ">=0.36.0" },
-    { name = "ruff", specifier = ">=0.14.10" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20250915" },
+    { name = "asyncpg", specifier = "==0.31.0" },
+    { name = "black", specifier = "==25.12.0" },
+    { name = "databases", specifier = "==0.9.0" },
+    { name = "matplotlib", specifier = "==3.10.8" },
+    { name = "mkdocs-click", specifier = "==0.9.0" },
+    { name = "mkdocs-material", specifier = "==9.7.1" },
+    { name = "mypy", specifier = "==1.19.1" },
+    { name = "psycopg", extras = ["binary", "pool"], specifier = "==3.3.2" },
+    { name = "pytest", specifier = "==9.0.2" },
+    { name = "pytest-cov", specifier = "==7.0.0" },
+    { name = "pytest-httpx", specifier = "==0.36.0" },
+    { name = "ruff", specifier = "==0.14.10" },
+    { name = "types-pyyaml", specifier = "==6.0.12.20250915" },
 ]
 
 [[package]]

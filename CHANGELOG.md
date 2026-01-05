@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed 
+
+- Decrease dependency constraints
+
 ## [1.0.0] - 2026-01-05
 
 ### Changed 
