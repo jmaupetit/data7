@@ -1,6 +1,6 @@
 [project]
 name = "data7"
-version = "0.13.2"
+version = "1.0.0"
 description = "Data7 streams CSV/Parquet datasets over HTTP from SQL queries."
 authors = [
   {name="Julien Maupetit", email="julien@maupetit.net"},

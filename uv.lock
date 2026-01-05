@@ -415,7 +415,7 @@ wheels = [
 
 [[package]]
 name = "data7"
-version = "0.13.2"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "dynaconf" },
