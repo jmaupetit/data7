@@ -22,9 +22,7 @@ def test_sql2csv(db_engine):
     )
 
     n_customers = 59
-    output = list(
-        filter(lambda x: len(x), "".join(sql2csv(db_engine, dataset)).split("\n"))
-    )
+    output = list(filter(len, "".join(sql2csv(db_engine, dataset)).split("\n")))
     assert len(output) == n_customers + 1
     assert output[0] == "last_name,first_name,company"
     assert output[1] == "Almeida,Roberto,Riotur"
