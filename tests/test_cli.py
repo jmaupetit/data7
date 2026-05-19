@@ -56,13 +56,11 @@ def test_check_command_with_invalid_configuration_file(runner):
     with runner.isolated_filesystem():
         for setting_file in data7.config.SETTINGS_FILES:
             Path(setting_file).touch()
-        Path(data7.config.SETTINGS_FILES[0]).write_text(
-            """
+        Path(data7.config.SETTINGS_FILES[0]).write_text("""
 development:
   foo: 'bar'
  indentation_matter:
-            """
-        )
+            """)
         result = runner.invoke(cli, ["check"])
         assert result.exit_code == ExitCodes.INVALID_CONFIGURATION
 
@@ -72,12 +70,10 @@ def test_check_command_with_invalid_database_url(runner):
     with runner.isolated_filesystem():
         for setting_file in data7.config.SETTINGS_FILES:
             Path(setting_file).touch()
-        Path(".secrets.yaml").write_text(
-            """
+        Path(".secrets.yaml").write_text("""
 development:
   DATABASE_URL: "postgresql://foo:bar@localhost:5432/lol"
-            """
-        )
+            """)
         result = runner.invoke(
             cli,
             args=["check"],
@@ -93,14 +89,12 @@ def test_check_command_with_invalid_dataset_query(runner):
 
         # Override datasets definition
         data7_configuration = Path("data7.yaml")
-        data7_configuration.write_text(
-            """
+        data7_configuration.write_text("""
 testing:
   datasets:
     - basename: places
       query: "SELECT * FROM Places"
-            """
-        )
+            """)
 
         # Create database
         db_path = Path("db/tests.db")
