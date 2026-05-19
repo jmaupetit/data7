@@ -36,7 +36,7 @@ dev = [
     "mkdocs-material==9.7.1",
     "mypy==1.19.1",
     "psycopg[binary,pool]==3.3.2",
-    "pytest==9.0.2",
+    "pytest==9.0.3",
     "pytest-cov==7.0.0",
     "pytest-httpx==0.36.0",
     "ruff==0.14.10",
