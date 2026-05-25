@@ -39,8 +39,8 @@ dev = [
     "pytest==9.0.3",
     "pytest-cov==7.1.0",
     "pytest-httpx==0.36.2",
-    "ruff==0.15.12",
-    "types-pyyaml==6.0.12.20260510",
+    "ruff==0.15.13",
+    "types-pyyaml==6.0.12.20260518",
 ]
 
 [project.urls]
