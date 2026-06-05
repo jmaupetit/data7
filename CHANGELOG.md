@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Security
+
+- Upgrade starlette to 1.2.1 ((CVE-2026-48710)[https://nvd.nist.gov/vuln/detail/CVE-2026-48710])
+
 ## [1.0.1] - 2026-01-05
 
 ### Changed 
