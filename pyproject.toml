@@ -36,10 +36,10 @@ dev = [
     "mkdocs-material==9.7.6",
     "mypy==2.1.0",
     "psycopg[binary,pool]==3.3.4",
-    "pytest==9.1.0",
+    "pytest==9.1.1",
     "pytest-cov==7.1.0",
     "pytest-httpx==0.36.2",
-    "ruff==0.15.17",
+    "ruff==0.15.18",
     "types-pyyaml==6.0.12.20260518",
 ]
 
