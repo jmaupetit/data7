@@ -13,32 +13,32 @@ and this project adheres to
 ### Security
 
 - Upgrade starlette to 1.3.1
-  ((CVE-2026-54282)[https://nvd.nist.gov/vuln/detail/CVE-2026-54282],
-   (CVE-2026-54283)[https://nvd.nist.gov/vuln/detail/CVE-2026-54283]
+  ([CVE-2026-54282](https://nvd.nist.gov/vuln/detail/CVE-2026-54282),
+  [CVE-2026-54283](https://nvd.nist.gov/vuln/detail/CVE-2026-54283))
 
 ## [1.0.2] - 2026-06-05
 
 ### Security
 
 - Upgrade starlette to 1.2.1
-  ((CVE-2026-48710)[https://nvd.nist.gov/vuln/detail/CVE-2026-48710])
+  ([CVE-2026-48710](https://nvd.nist.gov/vuln/detail/CVE-2026-48710))
 
 ## [1.0.1] - 2026-01-05
 
-### Changed 
+### Changed
 
 - Decrease dependency constraints
 
 ## [1.0.0] - 2026-01-05
 
-### Changed 
+### Changed
 
 - Update python version compatibility to >= 3.11
 - Build the python package using `uv` & hatchling
 
 ## [0.13.2] - 2025-10-31
 
-### Fixed 
+### Fixed
 
 - Upgrade starlette to 0.49.1
 
