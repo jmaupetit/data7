@@ -2,12 +2,11 @@
 
 import pytest
 
-from data7.config import settings
 from data7.models import Dataset
 from data7.utils import populate_datasets
 
 
-def test_populate_datasets(db_engine, monkeypatch):
+def test_populate_datasets(db_engine, patch_settings):
     """Test the populate_datasets function."""
     employees_query = (
         "SELECT "
@@ -25,8 +24,7 @@ def test_populate_datasets(db_engine, monkeypatch):
         "FROM Customer"
     )
 
-    monkeypatch.setattr(
-        settings,
+    patch_settings(
         "datasets",
         [
             {
@@ -52,7 +50,7 @@ def test_populate_datasets(db_engine, monkeypatch):
     ]
 
 
-def test_populate_datasets_with_invalid_query(db_engine, monkeypatch):
+def test_populate_datasets_with_invalid_query(db_engine, patch_settings):
     """Test the populate_datasets function when user defined an invalid query."""
     employees_query = (
         "SELECT "
@@ -63,8 +61,7 @@ def test_populate_datasets_with_invalid_query(db_engine, monkeypatch):
         "WHERE LastName = 'Doe'"
     )
 
-    monkeypatch.setattr(
-        settings,
+    patch_settings(
         "datasets",
         [
             {
@@ -86,8 +83,7 @@ def test_populate_datasets_with_invalid_query(db_engine, monkeypatch):
         "WHERE LastName = 'Doe'"
     )
 
-    monkeypatch.setattr(
-        settings,
+    patch_settings(
         "datasets",
         [
             {
