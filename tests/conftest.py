@@ -14,6 +14,26 @@ def set_test_settings():
 
 
 @pytest.fixture
+def patch_settings():
+    """Temporarily override data7 settings values.
+
+    Dynaconf settings should not be patched with `monkeypatch.setattr` as its
+    restore mechanism relies on `delattr`, which is not supported by dynaconf.
+    """
+    saved = {}
+
+    def _patch(name, value):
+        if name not in saved:
+            saved[name] = settings.get(name)
+        settings.set(name, value)
+
+    yield _patch
+
+    for name, original in saved.items():
+        settings.set(name, original)
+
+
+@pytest.fixture
 def db_engine():
     """Get database engine."""
     yield create_engine(settings.DATABASE_URL)
