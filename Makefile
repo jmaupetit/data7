@@ -62,20 +62,20 @@ run: ## run the api server
 # -- API
 lint: ## lint all sources
 lint: \
-	lint-black \
+	lint-format \
 	lint-ruff \
-  lint-mypy
+  lint-ty
 .PHONY: lint
 
-lint-black: ## lint python sources with black
-	@echo 'lint:black started…'
-	uv run black src/data7 tests scripts
-.PHONY: lint-black
+lint-format: ## format python sources with ruff format
+	@echo 'lint:format started…'
+	uv run ruff format src/data7 tests scripts
+.PHONY: lint-format
 
-lint-black-check: ## check python sources with black
-	@echo 'lint:black check started…'
-	uv run black --check src/data7 tests scripts
-.PHONY: lint-black-check
+lint-format-check: ## check python sources formatting with ruff format
+	@echo 'lint:format check started…'
+	uv run ruff format --check src/data7 tests scripts
+.PHONY: lint-format-check
 
 lint-ruff: ## lint python sources with ruff
 	@echo 'lint:ruff started…'
@@ -87,10 +87,10 @@ lint-ruff-fix: ## lint and fix python sources with ruff
 	uv run ruff check --fix src/data7 tests scripts
 .PHONY: lint-ruff-fix
 
-lint-mypy: ## lint python sources with mypy
-	@echo 'lint:mypy started…'
-	uv run mypy src/data7 tests scripts
-.PHONY: lint-mypy
+lint-ty: ## check python sources with ty
+	@echo 'lint:ty started…'
+	uv run ty check src/data7 tests scripts
+.PHONY: lint-ty
 
 test: ## run tests
 	uv run pytest
