@@ -69,12 +69,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
-      - name: Lint with Black
-        run: make lint-black-check
+      - name: Lint with Ruff format
+        run: make lint-format-check
       - name: Lint with Ruff
         run: make lint-ruff
-      - name: Lint with MyPy
-        run: make lint-mypy
+      - name: Lint with ty
+        run: make lint-ty
 
   test:
     needs: build

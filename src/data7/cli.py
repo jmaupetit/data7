@@ -12,6 +12,7 @@ import sqlalchemy
 import typer
 import uvicorn
 import yaml
+import yaml.parser
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.syntax import Syntax
@@ -211,13 +212,13 @@ def stream(extension: Extension, name: str):
     console.print(query_md)
 
     # Start streaming
-    streamer = sql2csv
-    stream = sys.stdout
+    chunksize = data7.config.settings.CHUNK_SIZE
     if extension == Extension.PARQUET:
-        streamer = sql2parquet
-        stream = sys.stdout.buffer
-    for chunk in streamer(engine, dataset, chunksize=data7.config.settings.CHUNK_SIZE):
-        stream.write(chunk)
+        for chunk in sql2parquet(engine, dataset, chunksize=chunksize):
+            sys.stdout.buffer.write(chunk)
+    else:
+        for chunk in sql2csv(engine, dataset, chunksize=chunksize):
+            sys.stdout.write(chunk)
 
 
 @cli.command()
