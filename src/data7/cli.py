@@ -221,7 +221,7 @@ def stream(extension: Extension, name: str):
 
 
 @cli.command()
-def run(  # noqa: PLR0913
+def run(  # noqa: PLR0913, PLR0917
     host: Optional[str] = None,
     port: Optional[int] = None,
     reload: bool = False,
