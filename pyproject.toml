@@ -37,9 +37,9 @@ dev = [
     "psycopg[binary,pool]==3.3.9",
     "pytest==9.2.0",
     "pytest-cov==7.1.0",
-    "ruff==0.17.4",
+    "ruff==0.17.5",
     "ty==0.0.107",
-    "types-pyyaml==6.0.12.20261111",
+    "types-pyyaml==6.0.12.20261113",
 ]
 
 [project.urls]
